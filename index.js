@@ -73,7 +73,6 @@ class ChronosTimeSliderControl extends THREE.EventDispatcher {
 
         this.container = container;
         this.options = options;
-        this.instance = null;
 
         this.onTimeRangeUpdated = this.onTimeRangeUpdated.bind(this);
         this.onCurrentTimeUpdated = this.onCurrentTimeUpdated.bind(this);
@@ -172,6 +171,10 @@ class ChronosTimeSliderControl extends THREE.EventDispatcher {
                     instance: this
                 });
             });
+    }
+
+    uninitialize() {
+        ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this.container));
     }
 }
 

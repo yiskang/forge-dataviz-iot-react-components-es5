@@ -12,3 +12,10 @@ Pre-compiled [forge-dataviz-iot-react-components](https://github.com/Autodesk-Fo
 Re-usable React components used by the [Forge Dataviz IoT Reference App](https://github.com/Autodesk-Forge/forge-dataviz-iot-reference-app).
 
 Full instructions on how to use the package can be found [here](https://forge.autodesk.com/en/docs/dataviz/v1/developers_guide/npm_packages/react_components/)
+
+## Usage
+
+```
+<link rel="stylesheet" href="https://raw.githubusercontent.com/yiskang/forge-dataviz-iot-react-components-es5/main/dist/timeslider.css">
+<script src="https://raw.githubusercontent.com/yiskang/forge-dataviz-iot-react-components-es5/main/dist/timeslider.js"></script>
+```
