@@ -15,7 +15,8 @@ Full instructions on how to use the package can be found [here](https://forge.au
 
 ## Usage
 
-```
-<link rel="stylesheet" href="https://raw.githubusercontent.com/yiskang/forge-dataviz-iot-react-components-es5/main/dist/timeslider.css">
-<script src="https://raw.githubusercontent.com/yiskang/forge-dataviz-iot-react-components-es5/main/dist/timeslider.js"></script>
+```html
+<link rel="stylesheet" href="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/timeslider.css" type="text/css">
+<script src="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/vendor.js"></script>
+<script src="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/timeslider.js"></script>
 ```
