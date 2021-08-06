@@ -116,11 +116,7 @@ class ChronosTimeSliderControl extends THREE.EventDispatcher {
     }
 
     initialize() {
-        const {
-            dataStart,
-            dataEnd,
-            timeOptions
-        } = this.options;
+        const { timeOptions } = this.options;
 
         // if (!(timeOptions instanceof TimeOptions))
         //     throw new Error(`Invalid input \`options.timeOptions\`. They should be a type of \`Autodesk.DataVisualization.UI.TimeOptions\`.`);
@@ -146,9 +142,9 @@ class ChronosTimeSliderControl extends THREE.EventDispatcher {
         let startDate = new Date(currDate.getTime() - 14 * 24 * 60 * 60 * 1000);
         startDate.setUTCHours(0, 0, 0, 0);
 
-        if (dataStart && dataEnd) {
-            let dataStart = new Date(dataStart.getTime());
-            let dataEnd = new Date(dataEnd.getTime());
+        if (this.options.dataStart && this.options.dataEnd) {
+            let dataStart = new Date(this.options.dataStart.getTime());
+            let dataEnd = new Date(this.options.dataEnd.getTime());
             startRange.setTime(dataStart.getTime());
             endRange.setTime(dataEnd.getTime());
 

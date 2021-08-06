@@ -42,6 +42,8 @@
 
         var timeOptions = new Autodesk.DataVisualization.UI.TimeOptions(startTime, endTime, currentTime);
         var timeSliderOptions = {
+            dataStart: startTime,
+            dataEnd: endTime,
             timeOptions,
             handleTimeRangeUpdated: (startTime, endTime, currentTime) => console.log(startTime, endTime, currentTime),
             handleCurrentTimeUpdated: (currentTime) => console.log(currentTime)
