@@ -15,7 +15,8 @@
   "author": "Autodesk Inc.",
   "license": "Apache-2.0",
   "dependencies": {
-    "forge-dataviz-iot-react-components": "^0.1.16"
+    "chronos-etu": "^5.1.1",
+    "forge-dataviz-iot-react-components": "^0.1.17"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.41",
