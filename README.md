@@ -14,6 +14,14 @@ Re-usable React components used by the [Forge Dataviz IoT Reference App](https:/
 
 Full instructions on how to use the package can be found [here](https://forge.autodesk.com/en/docs/dataviz/v1/developers_guide/npm_packages/react_components/)
 
+## Thumbnail
+
+![thumbnail](thumbnail.png)
+
+## Demo
+
+https://yiskang.github.io/forge-dataviz-iot-react-components-es5
+
 ## Usage
 
 - ChronosTimeSlider:
