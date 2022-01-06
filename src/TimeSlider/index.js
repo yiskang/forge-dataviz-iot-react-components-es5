@@ -42,6 +42,66 @@ class TimeOptions {
 }
 
 /**
+ *  The time slider react wrapper based of https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/ChronosTimeSlider.jsx.
+ * @class
+ */
+class DataVizChronosTimeSlider extends React.Component {
+    /**
+     * @param {Object} props
+     * @param {TimeOptions} props.timeOptions The option for time slice selection in the timeline object.
+     * @param {String} props.dataStart The earliest start date (in ISO string format) for the slider.
+     * @param {String} props.dataEnd The latest end date (in ISO string format) for the slider.
+     * @param {Function} props.handleTimeRangeUpdated A callback
+     * &nbsp;function to be invoked when the time selection is updated
+     * @param {Function} props.handleCurrentTimeUpdated A callback
+     * &nbsp;handler invoked when the current time marker is updated without
+     * &nbsp;changing the time selection.
+     * @constructor
+     */
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            startRange: props.startRange,
+            endRange: props.endRange,
+            startTime: props.startTime,
+            endTime: props.endTime,
+            currentTime: props.currentTime,
+            resolution: props.resolution
+        };
+    }
+
+    render() {
+        let {
+            startRange,
+            endRange,
+            startTime,
+            endTime,
+            currentTime,
+            resolution
+        } = this.state;
+
+        let {
+            onTimeRangeUpdated,
+            onCurrentTimeUpdated
+        } = this.props;
+
+        return (
+            <ChronosTimeSlider
+                rangeStart={startRange.toISOString()}
+                rangeEnd={endRange.toISOString()}
+                startTime={new Date(startTime.getTime())}
+                endTime={new Date(endTime.getTime())}
+                currentTime={currentTime ? new Date(currentTime.getTime()) : null}
+                resolution={resolution || 'PT1H'}
+                onTimeRangeUpdated={onTimeRangeUpdated}
+                onCurrTimeUpdated={onCurrentTimeUpdated}
+            />
+        );
+    }
+}
+
+/**
  * Events
  */
 const TIME_SLIDER_CONTROL_INITIALIZED_EVENT = 'timeSliderControlInitializedEvent';
@@ -171,27 +231,30 @@ class ChronosTimeSliderControl extends THREE.EventDispatcher {
             endRange.setTime(dataEnd.getTime() + 2 * 60 * 60 * 24 * 1000);
         }
 
-        ReactDOM.render(
-            <ChronosTimeSlider
-                rangeStart={ startRange.toISOString() }
-                rangeEnd={ endRange.toISOString() }
-                startTime={ new Date(timeOptions.startTime.getTime()) }
-                endTime={ new Date(timeOptions.endTime.getTime()) }
-                currentTime={ timeOptions.currentTime ? new Date(timeOptions.currentTime.getTime()): null }
-                resolution={ timeOptions.resolution || 'PT1H' }
-                onTimeRangeUpdated={ this.onTimeRangeUpdated }
-                onCurrTimeUpdated={ this.onCurrentTimeUpdated }
+        this.instance = ReactDOM.render(
+            <DataVizChronosTimeSlider
+                startRange={startRange}
+                endRange={endRange}
+                startTime={new Date(timeOptions.startTime.getTime())}
+                endTime={new Date(timeOptions.endTime.getTime())}
+                currentTime={timeOptions.currentTime ? new Date(timeOptions.currentTime.getTime()) : null}
+                resolution={timeOptions.resolution || 'PT1H'}
+                onTimeRangeUpdated={this.onTimeRangeUpdated}
+                onCurrentTimeUpdated={this.onCurrentTimeUpdated}
             />,
             this.container,
             () => {
                 this.dispatchEvent({
                     type: TIME_SLIDER_CONTROL_INITIALIZED_EVENT,
-                    instance: this
+                    control: this
                 });
             });
     }
 
     uninitialize() {
+        delete this.instance;
+        this.instance = null;
+
         ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this.container));
     }
 }

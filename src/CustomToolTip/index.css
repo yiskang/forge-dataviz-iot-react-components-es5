@@ -1,0 +1,77 @@
+/**
+ *
+ * Copyright 2021 Autodesk
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http: *www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+ /*//--------------------------DataChart component styles-------------------------//*/
+.chart-container {
+    display: flex;
+    justify-content: center;
+}
+
+/*//------------------------CustomToolTip component styles-----------------------//*/
+.tooltip-device-name {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+    padding-top: 1px;
+    padding-bottom: 3px;
+}
+
+.tooltip-property-val {
+    font-size: 13px;
+    display: flex;
+    justify-content: center;
+}
+
+.tooltip {
+    position: absolute;
+    z-index: 2;
+}
+
+.tooltip-loading-icon {
+    display: block;
+    margin: auto;
+    padding: 5px;
+}
+
+div.MuiTooltip-tooltip.MuiTooltip-tooltipArrow {
+    background-color: #373737;
+    font-size: 12px;
+    padding: 0px;
+    padding-top: 2px;
+    padding-bottom: 3px;
+    margin: 0px;
+}
+
+span.MuiTooltip-arrow {
+    color: #373737;
+    margin-bottom: 0px;
+    font-size: 20px;
+}
+
+/*//------------------------Data Chart component styles-----------------------//*/
+.tooltip-size {
+    width: 170px;
+    height: 30px !important;
+}
+
+.dashboard-size {
+    width: 100%;
+    height: 220px !important;
+    padding: 15px 20px 15px 20px;
+}

@@ -14,7 +14,7 @@ const mode = isDevEnv ? 'development' : 'production';
 
 var config = {
     entry: {
-        timeslider: ['./src/TimeSlider/index.js', './src/TimeSlider/timeslider.css'],
+        timeslider: ['./src/TimeSlider/index.js', './src/TimeSlider/index.css'],
         // vendor: ['react', 'react-dom'],
     },
     output: {

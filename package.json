@@ -4,7 +4,9 @@
   "description": "A React Component Library used by https://github.com/Autodesk-Forge/forge-dataviz-iot-reference-app with ES5 support",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js"
+    "build": "npm run build:tooltip && npm run build:timeslider",
+    "build:tooltip": "webpack --config tooltip-webpack.config.js",
+    "build:timeslider": "webpack --config timeslider-webpack.config.js"
   },
   "keywords": [
     "autodesk",
