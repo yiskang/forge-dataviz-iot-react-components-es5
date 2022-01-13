@@ -120,6 +120,56 @@ https://yiskang.github.io/forge-dataviz-iot-react-components-es5
             }
         }
 
+        var propIdGradientMap = {
+            Temperature: [0x0000ff, 0x00ff00, 0xffff00, 0xff0000],
+            Humidity: [0x00f260, 0x0575e6],
+            "CO₂": [0x1e9600, 0xfff200, 0xff0000]
+        };
+
+        var deviceModelProperties = (() => {
+            let data = [
+                {
+                    "id": "d370a293-4bd5-4bdb-a3df-376dc131d44c",
+                    "name": "Human Comfort Sensor",
+                    "description": "Monitors indoor air quality by measuring levels of Carbon Dioxide (CO2), temperature, and humidity.",
+                    "properties": [
+                        {
+                            "id": "Temperature",
+                            "name": "Temperature",
+                            "description": "External temperature in Fahrenheit",
+                            "dataType": "double",
+                            "dataUnit": "Celsius",
+                            "rangeMin": "18.00",
+                            "rangeMax": "28.00"
+                        },
+                        {
+                            "id": "Humidity",
+                            "name": "Humidity",
+                            "description": "Relative humidity in percentage",
+                            "dataType": "double",
+                            "dataUnit": "%RH",
+                            "rangeMin": "23.09",
+                            "rangeMax": "49.09"
+                        },
+                        {
+                            "id": "CO₂",
+                            "name": "CO₂",
+                            "description": "Level of carbon dioxide (CO₂)",
+                            "dataType": "double",
+                            "dataUnit": "ppm",
+                            "rangeMin": "482.81",
+                            "rangeMax": "640.00"
+                        }
+                    ]
+                }
+            ];
+
+            let deviceModels = Object.values(data);
+            let nestedList = deviceModels.map(dm => Object.values(dm.properties)).flat();
+            let filteredMap = new Map(nestedList.map((obj) => [`${obj.id}`, obj]));
+            return filteredMap;
+        })();
+
         var heatmapOptsContainer = document.getElementById('heatmapOpts');
         var heatmapOptions = {
             propIdGradientMap,
@@ -127,17 +177,20 @@ https://yiskang.github.io/forge-dataviz-iot-react-components-es5
             getPropertyRanges: (propertyId) => getPropertyRanges(propertyId, deviceModelProperties)
         };
         var heatmapOptsCtrl = new Autodesk.DataVisualization.UI.HeatmapOptionsControlControl(heatmapOptsContainer, heatmapOptions);
+        heatmapOptsCtrl.initialize();
 
-        heatmapOptsCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.HEATMAP_OPTIONS_CONTROL_INITIALIZED_EVENT,
-            (event) => console.log(event)
-        );
+        // Hide HeatmapOptionsControlControl
+        heatmapOptsCtrl.hide();
 
+        // Show HeatmapOptionsControlControl
+        heatmapOptsCtrl.show();
+
+        // Register events
         heatmapOptsCtrl.addEventListener(
             Autodesk.DataVisualization.UI.HEATMAP_OPTIONS_CONTROL_STATE_CHANGED_EVENT,
-            (event) => console.log(event)
-        );
-
-        heatmapOptsCtrl.initialize();
+            (event) => {
+                //Codes to control surface shading(heatmap)
+            });
+        
     </script>
     ```
