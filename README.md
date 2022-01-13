@@ -9,6 +9,7 @@ Pre-compiled [forge-dataviz-iot-react-components](https://github.com/Autodesk-Fo
 
 - ChronosTimeSliderControl: A wrapper class to [ChronosTimeSlider](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/ChronosTimeSlider.jsx)
 - CustomTooltipControl: A wrapper class to [CustomToolTip](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/CustomToolTip.jsx)
+- HeatmapOptionsControlControl: A wrapper class to [HeatmapOptions](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/HeatmapOptions.jsx)
 
 Re-usable React components used by the [Forge Dataviz IoT Reference App](https://github.com/Autodesk-Forge/forge-dataviz-iot-reference-app).
 
@@ -73,5 +74,70 @@ https://yiskang.github.io/forge-dataviz-iot-react-components-es5
 
         // Hide tooltip
         tooltip.hide();
+    </script>
+    ```
+
+- HeatmapOptionsControlControl:
+
+    ```html
+     <link rel="stylesheet" href="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/heatmapoptions.css" type="text/css">
+    <script src="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/vendor.js"></script>
+    <script src="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/heatmapoptions.js"></script>
+    <script>
+        /**
+         * Gets the selected property's range min, max and dataUnit value.
+         *
+         * @param {string} propertyId String identifier of a device property.
+         * @returns {Object} The rangeMin, rangeMax and dataUnit for the selected propertyId
+         */
+        function getPropertyRanges(propertyId, propertyMap) {
+            if (propertyId !== "None") {
+                let dataUnit = "";
+                let rangeMin = Infinity;
+                let rangeMax = -Infinity;
+
+                //Get the property data from the device model
+                let deviceProperty = propertyMap.get(propertyId);
+
+                if (deviceProperty) {
+                    dataUnit = deviceProperty.dataUnit;
+                    dataUnit = dataUnit.toLowerCase() === "celsius" ? "°C" : dataUnit;
+                    dataUnit = dataUnit.toLowerCase() === "fahrenheit" ? "°F" : dataUnit;
+                    rangeMin = Math.min(rangeMin, deviceProperty.rangeMin); // will be NaN if deviceProperty.rangeMin == undefined or NaN
+                    rangeMax = Math.max(rangeMax, deviceProperty.rangeMax); // will be NaN if deviceProperty.rangeMax == undefined or NaN
+                }
+
+                // Check if the property min and max range is available in the device model, else notify user
+                if (isNaN(rangeMin) || isNaN(rangeMax)) {
+                    console.warn(
+                        `RangeMin and RangeMax for ${propertyId} not specified. Please update these values in the device model`
+                    );
+                    rangeMin = 0;
+                    rangeMax = 100;
+                    dataUnit = "%";
+                }
+                return { rangeMin, rangeMax, dataUnit };
+            }
+        }
+
+        var heatmapOptsContainer = document.getElementById('heatmapOpts');
+        var heatmapOptions = {
+            propIdGradientMap,
+            deviceModelProperties,
+            getPropertyRanges: (propertyId) => getPropertyRanges(propertyId, deviceModelProperties)
+        };
+        var heatmapOptsCtrl = new Autodesk.DataVisualization.UI.HeatmapOptionsControlControl(heatmapOptsContainer, heatmapOptions);
+
+        heatmapOptsCtrl.addEventListener(
+            Autodesk.DataVisualization.UI.HEATMAP_OPTIONS_CONTROL_INITIALIZED_EVENT,
+            (event) => console.log(event)
+        );
+
+        heatmapOptsCtrl.addEventListener(
+            Autodesk.DataVisualization.UI.HEATMAP_OPTIONS_CONTROL_STATE_CHANGED_EVENT,
+            (event) => console.log(event)
+        );
+
+        heatmapOptsCtrl.initialize();
     </script>
     ```
