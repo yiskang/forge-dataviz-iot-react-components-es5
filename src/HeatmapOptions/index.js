@@ -140,7 +140,7 @@ class HeatmapOptionsControlControl extends THREE.EventDispatcher {
     }
 
     /**
-     * Get current time resolution. Ex. PT1H, PT15M etc.
+     * Current time resolution. Ex. PT1H, PT15M etc.
      * @type {string}
      */
     get timeResolution() {
@@ -150,7 +150,7 @@ class HeatmapOptionsControlControl extends THREE.EventDispatcher {
     }
 
     /**
-     * Set current time resolution.
+     * Current time resolution.
      * @param {string} value The time resolution. Ex. PT1H, PT15M etc.
      */
     set timeResolution(value) {
@@ -168,7 +168,7 @@ class HeatmapOptionsControlControl extends THREE.EventDispatcher {
     }
 
     /**
-     * Get currently selected property type id. Ex. Temperature, Humidity, CO₂ and etc.
+     * Current selected property type id. Ex. Temperature, Humidity, CO₂ and etc.
      * @type {string}
      */
     get selectedPropertyTypeId() {
@@ -178,7 +178,7 @@ class HeatmapOptionsControlControl extends THREE.EventDispatcher {
     }
 
     /**
-     * Set currently selected property type id.
+     * Current selected property type id.
      * @param {string} value The value for property type id. Ex. Temperature, Humidity, CO₂ and etc.
      */
     set selectedPropertyTypeId(value) {

@@ -9,11 +9,16 @@ Pre-compiled [forge-dataviz-iot-react-components](https://github.com/Autodesk-Fo
 
 - ChronosTimeSliderControl: A wrapper class to [ChronosTimeSlider](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/ChronosTimeSlider.jsx)
 - CustomTooltipControl: A wrapper class to [CustomToolTip](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/CustomToolTip.jsx)
-- HeatmapOptionsControlControl: A wrapper class to [HeatmapOptions](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/HeatmapOptions.jsx)
+- HeatmapOptionsControl: A wrapper class to [HeatmapOptions](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/HeatmapOptions.jsx)
+- SettingsToolControl:  A wrapper class to [HyperionToolContainer](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/HyperionToolContainer.jsx)
 
 Re-usable React components used by the [Forge Dataviz IoT Reference App](https://github.com/Autodesk-Forge/forge-dataviz-iot-reference-app).
 
 Full instructions on how to use the package can be found [here](https://forge.autodesk.com/en/docs/dataviz/v1/developers_guide/npm_packages/react_components/)
+
+## Notes
+
+- The `Autodesk.DataVisualization.UI` namespace comes from this package and also [forge-dataviz-iot-react-components](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components). It's not a part of the Forge Viewer's [Autodesk.DataVisualization](https://forge.autodesk.com/en/docs/dataviz/v1/developers_guide/introduction/overview/) extension.
 
 ## Thumbnail
 
@@ -52,7 +57,7 @@ https://yiskang.github.io/forge-dataviz-iot-react-components-es5
     </script>
     ```
 
-- CustomTooltipControl:
+- CustomTooltip:
 
     ```html
     <link rel="stylesheet" href="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/customtooltip.css" type="text/css">
@@ -77,10 +82,10 @@ https://yiskang.github.io/forge-dataviz-iot-react-components-es5
     </script>
     ```
 
-- HeatmapOptionsControlControl:
+- HeatmapOptions:
 
     ```html
-     <link rel="stylesheet" href="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/heatmapoptions.css" type="text/css">
+    <link rel="stylesheet" href="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/heatmapoptions.css" type="text/css">
     <script src="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/vendor.js"></script>
     <script src="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/heatmapoptions.js"></script>
     <script>
@@ -192,5 +197,21 @@ https://yiskang.github.io/forge-dataviz-iot-react-components-es5
                 //Codes to control surface shading(heatmap)
             });
         
+    </script>
+    ```
+
+- SettingsTool (HyperionToolContainer):
+
+    ```html
+    <link rel="stylesheet" href="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/settingstool.css" type="text/css">
+    <script src="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/vendor.js"></script>
+    <script src="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/settingstool.js"></script>
+    <script>
+        var settingsToolContainer = document.getElementById('settingsTool');
+        var settingsToolOptions = {
+            devicePanelData: [ ... ]
+        };
+        var settingsToolCtrl = new Autodesk.DataVisualization.UI.SettingsToolControl(settingsToolContainer, settingsToolOptions);
+        settingsToolCtrl.initialize();
     </script>
     ```

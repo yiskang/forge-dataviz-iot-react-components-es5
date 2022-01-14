@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="../dist/timeslider.css" />
   <link rel="stylesheet" href="../dist/customtooltip.css" />
   <link rel="stylesheet" href="../dist/heatmapoptions.css" />
+  <link rel="stylesheet" href="../dist/settingstool.css" />
   
   <!-- <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script> -->
@@ -20,6 +21,7 @@
   <script src="./data.js"></script>
 
   <script src="../dist/heatmapoptions.js"></script>
+  <script src="../dist/settingstool.js"></script>
 
   <style>
     html,
@@ -31,7 +33,7 @@
     }
 
     #timeline_header {
-        width: 75%;
+        width: 100%;
     }
   </style>
   
@@ -39,6 +41,7 @@
 
 <body>
     <div id="timeline" style="width: 75%; height: 120px;"></div>
+    <div id="settingsTool"></div>
     <div id="heatmapOpts"></div>
 
     <div id="tooltip" style="position: absolute; width: 10px; height: 10px; top:350px; left: 250px; border: 1px solid black;"></div>
@@ -78,6 +81,36 @@
         );
 
         timeSliderCtrl.initialize();
+
+        //!-- HyperionToolContainer
+
+        var settingsToolContainer = document.getElementById('settingsTool');
+        var settingsToolOptions = {
+            devicePanelData
+        };
+        var settingsToolCtrl = new Autodesk.DataVisualization.UI.SettingsToolControl(settingsToolContainer, settingsToolOptions);
+
+        settingsToolCtrl.addEventListener(
+            Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_RENDER_SETTINGS_CHANGED_EVENT,
+            (event) => console.log(event)
+        );
+
+        settingsToolCtrl.addEventListener(
+            Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_TREE_NODE_HOVERED_EVENT,
+            (event) => console.log(event)
+        );
+
+        settingsToolCtrl.addEventListener(
+            Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_TREE_NODE_BLURRED_EVENT,
+            (event) => console.log(event)
+        );
+
+        settingsToolCtrl.addEventListener(
+            Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_TREE_NODE_CLICKED_EVENT,
+            (event) => console.log(event)
+        );
+
+        settingsToolCtrl.initialize();
 
         //!-- HeatmapOptions
         /**
