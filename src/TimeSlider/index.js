@@ -107,6 +107,7 @@ class DataVizChronosTimeSlider extends React.Component {
 const TIME_SLIDER_CONTROL_INITIALIZED_EVENT = 'timeSliderControlInitializedEvent';
 const TIME_SLIDER_CONTROL_TIME_RANGE_UPDATED_EVENT = 'timeSliderControlTimeRangeUpdatedEvent';
 const TIME_SLIDER_CONTROL_CURRENT_TIME_UPDATED_EVENT = 'timeSliderControlCurrentTimeUpdatedEvent';
+const TIME_SLIDER_CONTROL_VISIBILITY_CHANGED_EVENT = 'timeSliderControlVisibilityChangedEvent';
 
 /**
  * The time slider component based of https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/ChronosTimeSlider.jsx.
@@ -172,6 +173,30 @@ class ChronosTimeSliderControl extends THREE.EventDispatcher {
         this.dispatchEvent({
             type: TIME_SLIDER_CONTROL_CURRENT_TIME_UPDATED_EVENT,
             currentTime
+        });
+    }
+
+    /**
+     * Show timeslider control
+     */
+     show() {
+        this.container.style.display = 'block';
+
+        this.dispatchEvent({
+            type: TIME_SLIDER_CONTROL_VISIBILITY_CHANGED_EVENT,
+            visible: true
+        });
+    }
+
+    /**
+     * Hide timeslider control
+     */
+    hide() {
+        this.container.style.display = 'none';
+
+        this.dispatchEvent({
+            type: TIME_SLIDER_CONTROL_VISIBILITY_CHANGED_EVENT,
+            visible: false
         });
     }
 
@@ -266,6 +291,7 @@ ns.TimeOptions = TimeOptions;
 ns.TIME_SLIDER_CONTROL_INITIALIZED_EVENT = TIME_SLIDER_CONTROL_INITIALIZED_EVENT;
 ns.TIME_SLIDER_CONTROL_TIME_RANGE_UPDATED_EVENT = TIME_SLIDER_CONTROL_TIME_RANGE_UPDATED_EVENT;
 ns.TIME_SLIDER_CONTROL_CURRENT_TIME_UPDATED_EVENT = TIME_SLIDER_CONTROL_CURRENT_TIME_UPDATED_EVENT;
+ns.TIME_SLIDER_CONTROL_VISIBILITY_CHANGED_EVENT = TIME_SLIDER_CONTROL_VISIBILITY_CHANGED_EVENT;
 
 export {
     ChronosTimeSliderControl,

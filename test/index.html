@@ -91,6 +91,11 @@
         var settingsToolCtrl = new Autodesk.DataVisualization.UI.SettingsToolControl(settingsToolContainer, settingsToolOptions);
 
         settingsToolCtrl.addEventListener(
+            Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_INITIALIZED_EVENT,
+            (event) => console.log(event)
+        );
+
+        settingsToolCtrl.addEventListener(
             Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_RENDER_SETTINGS_CHANGED_EVENT,
             (event) => console.log(event)
         );
