@@ -16,7 +16,7 @@
  *
  */
 
- /*//----------------------HeatmapOptions component styles----------------------//*/
+/*//----------------------HeatmapOptions component styles----------------------//*/
 #heatmapOptions_Container {
     top: calc(10px + 120px);
     width: 75%;
@@ -28,7 +28,7 @@
     pointer-events: none;
 }
 
-#ContactUsBar + div.viewer-container + #hyperionToolContainer + #heatmapOptions_Container {
+#ContactUsBar+div.viewer-container+#hyperionToolContainer+#heatmapOptions_Container {
     top: calc(10px + 120px + 80px);
 }
 
@@ -77,20 +77,24 @@ div#resolution-form.MuiFormControl-root {
     width: auto;
     pointer-events: auto;
 }
+
 div#property-form.MuiFormControl-root .MuiFilledInput-input,
 div#resolution-form.MuiFormControl-root .MuiFilledInput-input {
     padding: 10px;
     padding-right: 27px;
 }
+
 div#property-form.MuiFormControl-root .MuiSelect-icon,
 div#resolution-form.MuiFormControl-root .MuiSelect-icon {
     color: #fff;
 }
+
 div#property-form.MuiFormControl-root .MuiInputBase-root,
 div#resolution-form.MuiFormControl-root .MuiInputBase-root {
     color: #fff;
     background: none;
 }
+
 div#property-form.MuiFormControl-root .MuiFormControl-marginNormal,
 div#resolution-form.MuiFormControl-root .MuiFormControl-marginNormal {
     background: #2d2c2c;

@@ -127,6 +127,9 @@ class CustomTooltipControl extends THREE.EventDispatcher {
     }
 
     initialize() {
+        if (!this.container || !(this.container instanceof HTMLDivElement))
+            throw new Error(`Invalid input \`container\`. They should be a type of \`HTMLDivElement\`.`);
+
         let hoveredDeviceInfo = {};
         let chartData = {};
         let currentDeviceData = {};

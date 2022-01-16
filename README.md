@@ -7,6 +7,7 @@
 
 Pre-compiled [forge-dataviz-iot-react-components](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components) using webpack that is targeting to ES5. Now it contains the following controls. Check files in [dist](dist).
 
+- BasicDatePickerControl: A wrapper class to [BasicDatePicker](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/BasicDatePicker.jsx)
 - ChronosTimeSliderControl: A wrapper class to [ChronosTimeSlider](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/ChronosTimeSlider.jsx)
 - CustomTooltipControl: A wrapper class to [CustomToolTip](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/CustomToolTip.jsx)
 - HeatmapOptionsControl: A wrapper class to [HeatmapOptions](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/HeatmapOptions.jsx)
@@ -29,6 +30,27 @@ Full instructions on how to use the package can be found [here](https://forge.au
 https://yiskang.github.io/forge-dataviz-iot-react-components-es5
 
 ## Usage
+
+- BasicDatePicker:
+
+    ```html
+    <link rel="stylesheet" href="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/vendor.css" type="text/css">
+    <link rel="stylesheet" href="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/datepicker.css" type="text/css">
+    <script src="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/vendor.js"></script>
+    <script src="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/datepicker.js"></script>
+    <script>
+        var currentTime = new Date();
+        currentTime.setUTCHours(0, 0, 0, 0);
+        var endTime = new Date(currentTime.getTime() + 1 * 24 * 60 * 60 * 1000);
+        endTime.setUTCHours(0, 0, 0, 0);
+        var startTime = new Date(currentTime.getTime() - 14 * 24 * 60 * 60 * 1000);
+        startTime.setUTCHours(0, 0, 0, 0);
+
+        var timeOptions = new Autodesk.DataVisualization.UI.TimeOptions(startTime, endTime, currentTime);
+        var datePickerCtrl = new Autodesk.DataVisualization.UI.BasicDatePickerControl(document.getElementById('datepicker'), { timeOptions });
+        datePickerCtrl.initialize();
+    </script>
+    ```
 
 - ChronosTimeSlider:
 

@@ -17,29 +17,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ChronosTimeSlider } from 'forge-dataviz-iot-react-components';
-
-/**
- * Time slice selection of the timeline object.
- * @class
- * 
- * @memberof Autodesk.DataVisualization.UI
- * @alias Autodesk.DataVisualization.UI.TimeOptions
- */
-class TimeOptions {
-    /**
-     * @param {Date} startTime The start time for the time range selected in the slider.
-     * @param {Date} endTime The end time for the time range selected in the slider.
-     * @param {Date} currentTime The current time for the current time indicator in the slider.
-     * @param {string} [resolution='PT1H'] Current resolution of data. Ex. PT1H, PT15M etc.
-     * @constructor
-     */
-    constructor(startTime, endTime, currentTime, resolution = 'PT1H') {
-        this.endTime = endTime;
-        this.startTime = startTime;
-        this.resolution = resolution;
-        this.currentTime = currentTime;
-    }
-}
+import { TimeOptions } from '../TimeOptions';
 
 /**
  *  The time slider react wrapper based of https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/ChronosTimeSlider.jsx.
@@ -179,7 +157,7 @@ class ChronosTimeSliderControl extends THREE.EventDispatcher {
     /**
      * Show timeslider control
      */
-     show() {
+    show() {
         this.container.style.display = 'block';
 
         this.dispatchEvent({
@@ -287,13 +265,11 @@ class ChronosTimeSliderControl extends THREE.EventDispatcher {
 const ns = AutodeskNamespace('Autodesk.DataVisualization.UI');
 
 ns.ChronosTimeSliderControl = ChronosTimeSliderControl;
-ns.TimeOptions = TimeOptions;
 ns.TIME_SLIDER_CONTROL_INITIALIZED_EVENT = TIME_SLIDER_CONTROL_INITIALIZED_EVENT;
 ns.TIME_SLIDER_CONTROL_TIME_RANGE_UPDATED_EVENT = TIME_SLIDER_CONTROL_TIME_RANGE_UPDATED_EVENT;
 ns.TIME_SLIDER_CONTROL_CURRENT_TIME_UPDATED_EVENT = TIME_SLIDER_CONTROL_CURRENT_TIME_UPDATED_EVENT;
 ns.TIME_SLIDER_CONTROL_VISIBILITY_CHANGED_EVENT = TIME_SLIDER_CONTROL_VISIBILITY_CHANGED_EVENT;
 
 export {
-    ChronosTimeSliderControl,
-    TimeOptions
+    ChronosTimeSliderControl
 };

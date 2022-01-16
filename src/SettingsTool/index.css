@@ -16,7 +16,7 @@
  *
  */
 
- /*//-------------------HyperionToolContainer component styles-------------------//*/
+/*//-------------------HyperionToolContainer component styles-------------------//*/
 #hyperionToolContainer {
     z-index: 2;
     position: absolute;
@@ -27,37 +27,49 @@
     display: flex;
     flex-direction: column;
 }
-#ContactUsBar + div.viewer-container + #hyperionToolContainer {
+
+#ContactUsBar+div.viewer-container+#hyperionToolContainer {
     top: 230px;
 }
+
 #layers-icon {
     fill: inherit;
 }
+
 .container-button {
     fill: #fff;
 }
-.container-button:hover, .container-button:focus {
+
+.container-button:hover,
+.container-button:focus {
     fill: #00bfff;
 }
+
 #ssd-tree-view [id^="tree-node-"].Mui-selected .MuiTreeItem-content {
     color: #00bfff;
 }
+
 #ssd-tree-view div.MuiTreeItem-label:hover {
     background-color: #808080;
 }
+
 #ssd-tree-view .MuiTreeItem-iconContainer {
     margin-left: 10px;
     margin-right: 0px;
 }
+
 .leafName {
     display: block;
     align-items: center;
     color: #fff;
 }
+
 #divider {
     background-color: #fff;
 }
-#ssd-typography, #settings-typography {
+
+#ssd-typography,
+#settings-typography {
     padding: 16px;
     background-color: #373737;
     color: #fff;
@@ -65,12 +77,14 @@
     border-radius: 7px;
     margin-left: 7px;
 }
+
 .arrow {
     position: absolute;
     font-size: 7px;
     width: 4em;
     height: 4em;
 }
+
 .arrow::before {
     content: "";
     margin: auto;
@@ -79,37 +93,45 @@
     height: 0;
     border-style: solid;
 }
+
 .popper {
     z-index: 2;
     max-height: calc(100% - 250px);
     overflow-y: auto;
     border-radius: 7px;
 }
+
 [x-placement*="right"] .arrow {
     left: 0;
     height: 3em;
     width: 1em;
 }
+
 [x-placement*="right"] .arrow::before {
     border-width: 1em 1em 1em 0;
     border-color: transparent #373737 transparent transparent;
 }
+
 #form-divider {
     background-color: #555;
     margin: 6px;
 }
+
 .hm-radio-group {
     margin-top: 1px;
 }
+
 .radio-selection-form {
     margin-left: 35px;
     font-size: 10px;
 }
+
 #sensor-option-icon {
     fill: inherit;
     width: 30px;
     height: 26px;
 }
+
 #form-label-hm {
     color: #fff;
     padding: 2px;
@@ -117,10 +139,13 @@
     margin-bottom: 3px;
     margin-left: -6px;
 }
+
 .form-group {
     margin-left: 20px;
 }
-span.MuiRadio-root, span.MuiCheckbox-root {
+
+span.MuiRadio-root,
+span.MuiCheckbox-root {
     color: #fff;
     padding: 6px;
 }
