@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="dist/customtooltip.css" />
   <link rel="stylesheet" href="dist/heatmapoptions.css" />
   <link rel="stylesheet" href="dist/settingstool.css" />
+  <link rel="stylesheet" href="dist/datapanel.css" />
   
   <!-- <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script> -->
@@ -25,6 +26,7 @@
 
   <script src="dist/heatmapoptions.js"></script>
   <script src="dist/settingstool.js"></script>
+  <script src="dist/datapanel.js"></script>
 
   <style>
     html,
@@ -41,6 +43,10 @@
     /* #timeline_header {
         width: 100%;
     } */
+
+    #timeline {
+        width: 84.5% !important;
+    }
 
     #hyperion_container {
         height: 100%;
@@ -71,6 +77,10 @@
         height: calc(100% - 200px);
         top: 200px;
     }
+
+    #dataPanel {
+        height: 100%;
+    }
   </style>
   
 </head>
@@ -84,11 +94,12 @@
                 <div id="datepicker"></div>
             </div>
             <div id="ContactUsBar"></div>
-            <div id="tooltip" style="position: absolute; width: 10px; height: 10px; top:350px; left: 250px; border: 1px solid black; z-index: 1;"></div>
+            <div id="tooltip" style="position: absolute; width: 10px; height: 10px; top:450px; left: 250px; border: 1px solid black; z-index: 1;"></div>
             <div class="viewer-container"></div>
             
             <div id="settingsTool"></div>
             <div id="heatmapOpts"></div>
+            <div id="dataPanel"></div>
         </div>
     </div>
     
@@ -118,11 +129,6 @@
         );
 
         timeSliderCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.TIME_SLIDER_CONTROL_TIME_RANGE_UPDATED_EVENT,
-            (event) => console.log(event)
-        );
-
-        timeSliderCtrl.addEventListener(
             Autodesk.DataVisualization.UI.TIME_SLIDER_CONTROL_CURRENT_TIME_UPDATED_EVENT,
             (event) => console.log(event)
         );
@@ -139,8 +145,17 @@
 
         datePickerCtrl.addEventListener(
             Autodesk.DataVisualization.UI.BASIC_DATE_PICKER_CONTROL_TIME_RANGE_UPDATED_EVENT,
-            (event) => console.log(event)
-        );
+            (event) => {
+                console.log(event);
+                timeSliderCtrl.updateTimeRange(event.startTime, event.endTime);
+            });
+
+        timeSliderCtrl.addEventListener(
+            Autodesk.DataVisualization.UI.TIME_SLIDER_CONTROL_TIME_RANGE_UPDATED_EVENT,
+            (event) => {
+                console.log(event);
+                datePickerCtrl.updateTimeRange(event.startTime, event.endTime);
+            });
 
         datePickerCtrl.initialize();
 
@@ -169,11 +184,6 @@
 
         settingsToolCtrl.addEventListener(
             Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_TREE_NODE_BLURRED_EVENT,
-            (event) => console.log(event)
-        );
-
-        settingsToolCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_TREE_NODE_CLICKED_EVENT,
             (event) => console.log(event)
         );
 
@@ -236,7 +246,45 @@
 
         heatmapOptsCtrl.initialize();
 
-         //!-- Custom Tooltip
+        //!-- Data Panel
+        var dataPanelContainer = document.getElementById('dataPanel');
+        var dataPanelOptions = {
+            ...dataPanelData,
+            dataVizExtn: {}
+        };
+        var dataPanelCtrl = new Autodesk.DataVisualization.UI.DataPanelControl(dataPanelContainer, dataPanelOptions);
+        dataPanelCtrl.addEventListener(
+            Autodesk.DataVisualization.UI.DATA_PANEL_CONTROL_INITIALIZED_EVENT,
+            (event) => console.log(event)
+        );
+
+        dataPanelCtrl.addEventListener(
+            Autodesk.DataVisualization.UI.DATA_PANEL_CONTROL_TREE_NODE_HOVERED_EVENT,
+            (event) => console.log(event, event.data)
+        );
+
+        dataPanelCtrl.addEventListener(
+            Autodesk.DataVisualization.UI.DATA_PANEL_CONTROL_TREE_NODE_BLURRED_EVENT,
+            (event) => console.log(event, event.data)
+        );
+
+        dataPanelCtrl.addEventListener(
+            Autodesk.DataVisualization.UI.DATA_PANEL_CONTROL_TREE_NODE_CLICKED_EVENT,
+            (event) => {
+                console.log(event, event.data);
+                settingsToolCtrl.currentTreeNodeId = event.data?.id;
+            });
+
+        settingsToolCtrl.addEventListener(
+            Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_TREE_NODE_CLICKED_EVENT,
+            (event) => {
+                console.log(event);
+                dataPanelCtrl.currentTreeNodeId = event.data?.id;
+            });
+
+        dataPanelCtrl.initialize();
+
+        //!-- Custom Tooltip
         var tooltipContainer = document.getElementById('tooltip');
         var tooltip = new Autodesk.DataVisualization.UI.CustomTooltipControl(tooltipContainer);
         tooltip.initialize();
