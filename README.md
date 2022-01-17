@@ -257,3 +257,12 @@ https://yiskang.github.io/forge-dataviz-iot-react-components-es5
         settingsToolCtrl.initialize();
     </script>
     ```
+
+# License
+
+This sample is licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+Please see the [LICENSE](LICENSE) file for full details.
+
+## Written by
+
+Eason Kang [@yiskang](https://twitter.com/yiskang), [Forge Partner Development](http://forge.autodesk.com)
