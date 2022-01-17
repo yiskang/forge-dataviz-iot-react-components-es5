@@ -178,6 +178,28 @@ class ChronosTimeSliderControl extends THREE.EventDispatcher {
         });
     }
 
+    /**
+    * Update time change.
+    * @param {Date} startTime The start time for device data fetch call
+    * @param {Date} endTime The end time for device data fetch call
+    * @param {Date} currentTime The current time at which the TimeMarker is
+    */
+    updateTimeRange(startTime, endTime, currentTime) {
+        if (!this.instance) return;
+
+        if (startTime == this.instance.state.startTime) return;
+        if (endTime == this.instance.state.endTime) return;
+
+        this.instance.setState({
+            startTime,
+            endTime,
+            currentTime
+        },
+            () => {
+                this.onTimeRangeUpdated(startTime, endTime, currentTime);
+            });
+    }
+
     initialize() {
         const { timeOptions } = this.options;
 

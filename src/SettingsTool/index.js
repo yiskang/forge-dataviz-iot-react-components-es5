@@ -17,6 +17,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HyperionToolContainer, EventTypes } from 'forge-dataviz-iot-react-components';
+import { EventBus } from '../EventBus';
 
 const defaultRenderSettings = {
     showViewables: true,
@@ -24,9 +25,6 @@ const defaultRenderSettings = {
     showTextures: true,
     heatmapType: "GeometryHeatmap",
 };
-
-class EventBus { }
-THREE.EventDispatcher.prototype.apply(EventBus.prototype);
 
 /**
  * Find node in device tree by given id
@@ -173,17 +171,12 @@ class SettingsToolControl extends THREE.EventDispatcher {
     }
 
     onClickingGroupSelection(event) {
-        if (!this.instance) return;
+        if (this.currentTreeNodeId == event.data?.id) {
+            this.currentTreeNodeId = null;
+            return;
+        }
 
-        this.instance.setState({
-            selectedGroupNode: event.data
-        },
-            () => {
-                this.dispatchEvent({
-                    type: SETTINGS_TOOL_CONTROL_TREE_NODE_CLICKED_EVENT,
-                    ...event.data
-                });
-            });
+        this.currentTreeNodeId = event.data?.id;
     }
 
     /**
@@ -210,16 +203,25 @@ class SettingsToolControl extends THREE.EventDispatcher {
             if (node != null) break;
         }
 
-        if (!node)
-            throw new Error(`No device matching the given id \`${value}\` in the device tree found. Please check \`options.devicePanelData\`.`);
+        // if (!node)
+        //     throw new Error(`No device matching the given id \`${value}\` in the device tree found. Please check \`options.devicePanelData\`.`);
 
         this.instance.setState({
             selectedGroupNode: node
         },
             () => {
+                let data = null;
+                if(node != null) {
+                    let isLeaf = (node && (node.children.length <= 0));
+                    data = {
+                        ...node,
+                        isLeaf
+                    };
+                }
+
                 this.dispatchEvent({
                     type: SETTINGS_TOOL_CONTROL_TREE_NODE_CLICKED_EVENT,
-                    data: node
+                    data
                 });
             });
     }

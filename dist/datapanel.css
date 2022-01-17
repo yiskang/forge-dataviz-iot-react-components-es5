@@ -207,114 +207,204 @@
  * limitations under the License.
  *
  */
-/*//-------------------HyperionToolContainer component styles-------------------//*/
-#hyperionToolContainer {
+/*//--------------------DataPanelContainer component styles--------------------//*/
+#data-panel-container {
+  width: 25%;
+  min-width: 25%;
+  height: calc(100% - 120px);
+  transform: none !important;
+  padding-left: 2px;
   z-index: 2;
-  position: absolute;
-  top: 150px;
-  left: 15px;
   background-color: #373737;
-  border-radius: 16px;
+  width: 25%;
+  min-width: 25%;
+  height: calc(100% - 120px);
+  max-height: calc(100% - 120px);
+  overflow-y: auto;
+  position: relative !important; }
+
+.react-draggable {
+  float: right !important; }
+
+.react-draggable #resizeHandle {
+  width: 100%;
+  padding-left: 7px;
+  padding-right: 2px;
+  text-align: center;
   display: flex;
-  flex-direction: column; }
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 70%;
+  top: 25%; }
 
-#ContactUsBar + div.viewer-container + #hyperionToolContainer {
-  top: 230px; }
+.dashboard-view #resizeHandle {
+  top: 15%; }
 
-#layers-icon {
-  fill: inherit; }
+.dashboard {
+  padding-right: 2px; }
 
-.container-button {
-  fill: #fff; }
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  background-color: #2a2a2a;
+  padding: 15px 5px 15px 5px; }
 
-.container-button:hover,
-.container-button:focus {
-  fill: #00bfff; }
+#dashboard-back-arrow {
+  color: #fff;
+  position: absolute;
+  z-index: 2; }
 
-#ssd-tree-view [id^="tree-node-"].Mui-selected .MuiTreeItem-content {
-  color: #00bfff; }
+/*//--------------------------Dashboard component styles-------------------------//*/
+.dashboard-device-name {
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  flex-grow: 1;
+  position: relative;
+  line-height: 1.5;
+  letter-spacing: 0.00938em; }
 
-#ssd-tree-view div.MuiTreeItem-label:hover {
-  background-color: #808080; }
+#dashboard-loading-icon {
+  display: block;
+  margin: auto;
+  margin-top: 30px; }
 
-#ssd-tree-view .MuiTreeItem-iconContainer {
+/*//--------------------------DataChart component styles-------------------------//*/
+.chart-container {
+  display: flex;
+  justify-content: center; }
+
+/*//------------------------Data Chart component styles-----------------------//*/
+.tooltip-size {
+  width: 170px;
+  height: 30px !important; }
+
+.dashboard-size {
+  width: 100%;
+  height: 220px !important;
+  padding: 15px 20px 15px 20px; }
+
+/*//-----------------------Device Panel component styles-----------------------//*/
+#title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 900;
+  margin-top: 25px; }
+
+/*//-----------------------Autocomplete component styles------------------------//*/
+#searchBarDiv {
+  text-align: center;
+  overflow-y: auto; }
+
+#searchBarDiv .MuiTextField-root .MuiOutlinedInput-root fieldset {
+  border-color: #999; }
+
+#searchBarDiv .MuiTextField-root .MuiOutlinedInput-root fieldset:hover {
+  border-color: #999; }
+
+#searchBarDiv .MuiTextField-root .Mui-focused > fieldset {
+  border-color: #6facfc; }
+
+#searchBarDiv .MuiTextField-root .MuiSvgIcon-root {
+  fill: #999; }
+
+.MuiAutocomplete-root {
+  margin-bottom: 30px;
+  display: inline-flex;
+  width: 91%;
+  margin-top: 16px;
+  margin-left: 6px;
+  margin-right: 5px; }
+
+div.MuiAutocomplete-inputRoot {
+  border-color: #999; }
+
+input.MuiAutocomplete-input {
+  color: #d0d0d0;
+  font-size: 13px; }
+
+/*//-------------------------DeviceTree component styles------------------------//*/
+.tree-device-row-heading {
+  display: block;
+  align-items: center; }
+
+.tree-device-name {
+  font-weight: 900;
+  padding-top: 5px; }
+
+.badge {
+  border-radius: 50%;
+  text-align: center;
+  width: 24px;
+  line-height: 24px;
+  margin-left: 12px;
+  font-size: 10px;
+  background-color: #5b5b5b; }
+
+#device-tree-view {
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden; }
+
+#device-tree-view [id^="tree-node-"] .MuiTreeItem-content {
+  background-color: #2a2a2a;
+  max-width: 100%;
+  overflow-x: hidden; }
+
+#device-tree-view [id^="tree-node-"] .MuiTreeItem-label {
+  background-color: #2a2a2a;
+  font-size: 16px;
+  padding: 5px;
+  vertical-align: bottom;
+  align-items: center;
+  display: inline-flex;
+  padding-top: 5px; }
+
+#device-tree-view [id^="tree-node-"] .MuiTreeItem-group {
+  padding: 0;
+  margin: 0; }
+
+#device-tree-view [id^="tree-node-"] .MuiTreeItem-iconContainer {
   margin-left: 10px;
   margin-right: 0px; }
 
-.leafName {
-  display: block;
-  align-items: center;
-  color: #fff; }
-
-#divider {
-  background-color: #fff; }
-
-#ssd-typography,
-#settings-typography {
-  padding: 16px;
+#device-tree-view [id^="leaf-node-"] .MuiTreeItem-content {
   background-color: #373737;
-  color: #fff;
-  font-size: 14px;
-  border-radius: 7px;
-  margin-left: 7px; }
+  display: contents;
+  border: 1px solid black; }
 
-.arrow {
-  position: absolute;
-  font-size: 7px;
-  width: 4em;
-  height: 4em; }
+#device-tree-view [id^="leaf-node-"] .MuiTreeItem-label {
+  background-color: #373737;
+  padding: 10px;
+  border-bottom: 1px solid #555;
+  font-size: 16px;
+  margin-left: 0px;
+  margin-right: 0px;
+  display: block; }
 
-.arrow::before {
-  content: "";
-  margin: auto;
-  display: block;
-  width: 0;
-  height: 0;
-  border-style: solid; }
+#device-tree-view [id^="leaf-node-"] div.MuiTreeItem-label:hover {
+  background-color: #2a2a2a; }
 
-.popper {
-  z-index: 2;
-  max-height: calc(100% - 250px);
-  overflow-y: auto;
-  border-radius: 7px; }
+/*//------------------------DeviceStats component styles------------------------//*/
+div.MuiChip-root.MuiChip-outlined {
+  color: #d0d0d0;
+  border-color: #d0d0d0;
+  margin: 4px;
+  margin-top: 15px; }
 
-[x-placement*="right"] .arrow {
-  left: 0;
-  height: 3em;
-  width: 1em; }
+.MuiChip-label {
+  padding-left: 10px; }
 
-[x-placement*="right"] .arrow::before {
-  border-width: 1em 1em 1em 0;
-  border-color: transparent #373737 transparent transparent; }
+img.chip-icon.MuiChip-icon {
+  margin-right: 1px;
+  margin-left: 8px; }
 
-#form-divider {
-  background-color: #555;
-  margin: 6px; }
-
-.hm-radio-group {
-  margin-top: 1px; }
-
-.radio-selection-form {
-  margin-left: 35px;
-  font-size: 10px; }
-
-#sensor-option-icon {
-  fill: inherit;
-  width: 30px;
-  height: 26px; }
-
-#form-label-hm {
-  color: #fff;
-  padding: 2px;
-  margin-top: 8px;
-  margin-bottom: 3px;
-  margin-left: -6px; }
-
-.form-group {
-  margin-left: 20px; }
-
-span.MuiRadio-root,
-span.MuiCheckbox-root {
-  color: #fff;
-  padding: 6px; }
+@media screen and (max-width: 1130px) and (min-width: 988px) {
+  .logo {
+    display: none !important; } }
 

@@ -10,6 +10,7 @@ Pre-compiled [forge-dataviz-iot-react-components](https://github.com/Autodesk-Fo
 - BasicDatePickerControl: A wrapper class to [BasicDatePicker](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/BasicDatePicker.jsx)
 - ChronosTimeSliderControl: A wrapper class to [ChronosTimeSlider](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/ChronosTimeSlider.jsx)
 - CustomTooltipControl: A wrapper class to [CustomToolTip](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/CustomToolTip.jsx)
+- DataPanelControl: A wrapper class to [DataPanelContainer](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/DataPanelContainer.jsx)
 - HeatmapOptionsControl: A wrapper class to [HeatmapOptions](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/HeatmapOptions.jsx)
 - SettingsToolControl:  A wrapper class to [HyperionToolContainer](https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/HyperionToolContainer.jsx)
 
@@ -24,6 +25,8 @@ Full instructions on how to use the package can be found [here](https://forge.au
 ## Thumbnail
 
 ![thumbnail](thumbnail.png)
+
+![thumbnail-2](thumbnail-2.png)
 
 ## Demo
 
@@ -101,6 +104,23 @@ https://yiskang.github.io/forge-dataviz-iot-react-components-es5
 
         // Hide tooltip
         tooltip.hide();
+    </script>
+    ```
+
+- DataPanel (DataPanelContainer):
+
+    ```html
+    <link rel="stylesheet" href="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/datapanel.css" type="text/css">
+    <script src="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/vendor.js"></script>
+    <script src="https://yiskang.github.io/forge-dataviz-iot-react-components-es5/dist/datapanel.js"></script>
+    <script>
+        var dataPanelContainer = document.getElementById('dataPanel');
+        var dataPanelOptions = {
+            ...dataPanelData,
+            dataVizExtn: ... //!<< the instance of Autodesk.DataVisualization extension
+        };
+        var dataPanelCtrl = new Autodesk.DataVisualization.UI.DataPanelControl(dataPanelContainer, dataPanelOptions);
+        dataPanelCtrl.initialize();
     </script>
     ```
 

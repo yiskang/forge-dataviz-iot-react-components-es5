@@ -101,7 +101,19 @@ class BasicDatePickerControl extends THREE.EventDispatcher {
      * @param {Date} endTime The end end moment of date picked
      */
     onTimeRangeUpdated(startTime, endTime) {
+        this.updateTimeRange(startTime, endTime);
+    }
+
+    /**
+     * Update date change.
+     * @param {Date} startTime The start moment of date picked
+     * @param {Date} endTime The end end moment of date picked
+     */
+    updateTimeRange(startTime, endTime) {
         if (!this.instance) return;
+
+        if (startTime == this.instance.state.startTime) return;
+        if (endTime == this.instance.state.endTime) return;
 
         this.instance.setState({
             startTime,
