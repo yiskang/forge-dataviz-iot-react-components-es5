@@ -15,6 +15,8 @@
 //
 
 (function () {
+    const SpriteSize = 24; //!<< Sprites as points of size 24 x 24 pixels
+
     class DataProvider {
         constructor(parent) {
             this.parent = parent;
@@ -158,6 +160,21 @@
         }
 
         /**
+         * Gets the Device object given its identifier.
+         *
+         * @param {string} deviceId Identifier of the device.
+         * @returns {Device} The Device object if one is found,
+         * &nbsp;or undefined otherwise.
+         * @memberof Autodesk.DataVisualization.Data
+         * @alias Autodesk.DataVisualization.Data.DataStore#getDevice
+         */
+        getDevice(deviceId) {
+            let data = Object.values(this.deviceModels);
+            let devices = data.map(dm => Object.values(dm.devices)).flat();
+            return devices.find(d => d.id == deviceId);
+        }
+
+        /**
          * Gets the selected property's range min, max and dataUnit value.
          *
          * @param {string} propertyId String identifier of a device property.
@@ -278,13 +295,26 @@
         constructor(viewer, options) {
             super(viewer, options);
 
+            this.deviceDbId = 1;
             this.dataProvider = new DemoDataProvider(this);
 
-            this.createUI = this.createUI.bind(this);
-            this.onToolbarCreated = this.onToolbarCreated.bind(this);
+            //!--- DataViz UI
             this.onTimeRangeUpdated = this.onTimeRangeUpdated.bind(this);
             this.onRenderSettingsUpdated = this.onRenderSettingsUpdated.bind(this);
             this.onHeatmapOptionsChanged = this.onHeatmapOptionsChanged.bind(this);
+            this.onDeviceTreeNodeHovered = this.onDeviceTreeNodeHovered.bind(this);
+            this.onDeviceTreeNodeBlurred = this.onDeviceTreeNodeBlurred.bind(this);
+            this.onDataPanelTreeNodeHovered = this.onDataPanelTreeNodeHovered.bind(this);
+            this.onDataPanelTreeNodeBlurred = this.onDataPanelTreeNodeBlurred.bind(this);
+            this.onDataPanelTreeNodeClicked = this.onDataPanelTreeNodeClicked.bind(this);
+
+            //!-- DataViz ext
+            this.onSpriteHovered = this.onSpriteHovered.bind(this);
+            this.onSpriteClicked = this.onSpriteClicked.bind(this);
+
+            //!-- Viewer
+            this.createUI = this.createUI.bind(this);
+            this.onToolbarCreated = this.onToolbarCreated.bind(this);
             this.onModelLoaded = this.onModelLoaded.bind(this);
         }
 
@@ -336,6 +366,98 @@
             });
         }
 
+        onDeviceTreeNodeHovered(event) {
+            console.log(event, event.data);
+
+            this.#highlightDevice(event.data.id, true);
+        }
+
+        onDeviceTreeNodeBlurred(event) {
+            console.log(event, event.data);
+
+            this.dataVizTool.clearHighlightedViewables();
+            this.#highlightDevice(event.data.id, false);
+        }
+
+        onDataPanelTreeNodeBlurred(event) {
+            console.log(event, event.data?.isLeaf);
+
+            this.dataVizTool.clearHighlightedViewables();
+        }
+
+        onDataPanelTreeNodeHovered(event) {
+            console.log(event, event.data?.isLeaf);
+
+            if (!event.data?.isLeaf) return;
+
+            this.dataVizTool.clearHighlightedViewables();
+
+            const deviceId = event.data.id;
+            this.settingsToolCtrl.currentTreeNodeId = deviceId;
+
+            // Only attempt select if device IDs have been established.
+            if (this.deviceId2DbIdMap && this.deviceId2DbIdMap[deviceId]) {
+                this.dataVizTool.highlightViewables([this.deviceId2DbIdMap[deviceId]]);
+            }
+        }
+
+        onDataPanelTreeNodeClicked(event) {
+            console.log(event, event.data?.isLeaf);
+
+            const deviceId = event.data.id;
+            this.settingsToolCtrl.currentTreeNodeId = deviceId;
+
+            if (!event.data?.isLeaf) return;
+
+            this.dataVizTool.clearHighlightedViewables();
+
+            // Only attempt select if device IDs have been established.
+            if (this.deviceId2DbIdMap && this.deviceId2DbIdMap[deviceId]) {
+                this.dataVizTool.highlightViewables([this.deviceId2DbIdMap[deviceId]]);
+            }
+        }
+
+        onSpriteClicked(event) {
+            if (event.clickInfo && this.dataVizTool && this.dbId2DeviceIdMap) {
+                const deviceId = this.dbId2DeviceIdMap[event.dbId];
+                this.dataPanelCtrl.currentTreeNodeId = deviceId;
+            }
+        }
+
+        onSpriteHovered(event) {
+            if (event.hovering && this.dataVizTool && this.dbId2DeviceIdMap) {
+                const deviceId = this.dbId2DeviceIdMap[event.dbId];
+                const device = this.dataProvider.getDevice(deviceId);
+
+                if (!device) return;
+
+                const position = device.position;
+                const mappedPosition = this.viewer.impl.worldToClient(position);
+
+                const boundRect = this.tooltip.container.getBoundingClientRect();
+
+                // Accounting for vertical offset of viewer container
+                const verticalOffset = event.originalEvent.clientY - event.originalEvent.offsetY;
+
+                const hoveredDeviceInfo = {
+                    id: deviceId,
+                    xcoord: mappedPosition.x,
+                    ycoord:
+                        mappedPosition.y +
+                        verticalOffset -
+                        SpriteSize / this.viewer.getWindow().devicePixelRatio,
+                };
+
+                this.tooltip.show({
+                    hoveredDeviceInfo,
+                    chartData: tooltipData.chartData,
+                    currentDeviceData: tooltipData.currentDeviceData
+                })
+            } else {
+                this.tooltip.hide();
+            }
+        }
+
         async onModelLoaded(event) {
             await this.#renderSprites();
             await this.#renderHeatmap();
@@ -349,6 +471,41 @@
             await this.createUI();
         }
 
+        #highlightDevice(deviceId, isHighlight) {
+            const viewer = this.viewer;
+            const shadingData = this.shadingData;
+            const model = viewer.model;
+
+            let node = shadingData.getNodeById(deviceId);
+            if (node && node.dbIds) {
+                node.dbIds.map((dbId) => viewer.impl.highlightObjectNode(model, dbId, isHighlight));
+                viewer.impl.invalidate(false, false, true);
+            } else {
+                const leafNodes = [];
+                shadingData.getChildLeafs(leafNodes);
+
+                for (let i = 0; i < leafNodes.length; i++) {
+                    let leaf = leafNodes[i];
+                    if (
+                        leaf.shadingPoints &&
+                        leaf.shadingPoints.find((item) => item.id == deviceId)
+                    ) {
+                        let sp = leaf.shadingPoints.find((item) => item.id == deviceId);
+
+                        if (sp.dbId != null) {
+                            viewer.impl.highlightObjectNode(model, sp.dbId, isHighlight);
+                        } else {
+                            leaf.dbIds.map((dbId) =>
+                                viewer.impl.highlightObjectNode(model, dbId, isHighlight)
+                            );
+                        }
+                        viewer.impl.invalidate(false, false, true);
+                        break;
+                    }
+                }
+            }
+        }
+
         async #renderSprites() {
             const { deviceModels, renderSettings } = this.dataProvider;
             if (!deviceModels || deviceModels.length <= 0)
@@ -358,25 +515,38 @@
             if (!devices || devices.length <= 0)
                 return Promise.reject();
 
+            let shadingData = await this.dataProvider.createShadingGroupByFloor(
+                this.viewer.model,
+                devices
+            );
+            this.shadingData = shadingData;
+
             this.dbId2DeviceIdMap = {};
             this.deviceId2DbIdMap = {};
 
-            let dbId = 1;
             const DataVizCore = Autodesk.DataVisualization.Core;
             const styleMap = this.dataProvider.sensorStyleMap;
             const viewableData = new DataVizCore.ViewableData();
-            viewableData.spriteSize = 24; // Sprites as points of size 24 x 24 pixels
+            viewableData.spriteSize = SpriteSize;
 
-            for (let i = 0; i < devices.length; i++) {
-                const device = devices[i];
-                const style = styleMap[device.type] || styleMap['default'];
-                const viewable = new DataVizCore.SpriteViewable(device.position, style, dbId);
+            const leafNodes = [];
+            shadingData.getChildLeafs(leafNodes);
 
-                this.dbId2DeviceIdMap[dbId] = device.id;
-                this.deviceId2DbIdMap[device.id] = dbId;
-                dbId++;
+            for (let i = 0; i < leafNodes.length; i++) {
+                let leaf = leafNodes[i];
+                for (let j = 0; leaf.shadingPoints && j < leaf.shadingPoints.length; j++) {
+                    let device = leaf.shadingPoints[j];
 
-                viewableData.addViewable(viewable);
+                    const style = styleMap[device.contextData.styleId] || styleMap['default'];
+                    const position = device.position;
+                    const viewable = new DataVizCore.SpriteViewable(position, style, this.deviceDbId);
+
+                    this.dbId2DeviceIdMap[this.deviceDbId] = device.id;
+                    this.deviceId2DbIdMap[device.id] = this.deviceDbId;
+                    this.deviceDbId++;
+
+                    viewableData.addViewable(viewable);
+                }
             }
 
             await viewableData.finish();
@@ -392,20 +562,11 @@
         }
 
         async #renderHeatmap() {
-            const { deviceModels, renderSettings } = this.dataProvider;
-            if (!deviceModels || deviceModels.length <= 0)
+            const { renderSettings } = this.dataProvider;
+            if (!this.shadingData)
                 return Promise.reject();
 
-            const { devices } = deviceModels[0];
-            if (!devices || devices.length <= 0)
-                return Promise.reject();
-
-            let shadingData = await this.dataProvider.createShadingGroupByFloor(
-                this.viewer.model,
-                devices
-            );
-
-            let devicePanelData = this.dataProvider.createDeviceTree(shadingData, false);
+            let devicePanelData = this.dataProvider.createDeviceTree(this.shadingData, false);
             this.settingsToolCtrl.devicePanelData = devicePanelData;
 
             let newDataPanelData = {
@@ -527,28 +688,25 @@
 
             dataPanelCtrl.addEventListener(
                 Autodesk.DataVisualization.UI.DATA_PANEL_CONTROL_TREE_NODE_HOVERED_EVENT,
-                (event) => console.log(event, event.data)
+                this.onDataPanelTreeNodeHovered
             );
 
             dataPanelCtrl.addEventListener(
                 Autodesk.DataVisualization.UI.DATA_PANEL_CONTROL_TREE_NODE_BLURRED_EVENT,
-                (event) => console.log(event, event.data)
+                this.onDataPanelTreeNodeBlurred
             );
 
             dataPanelCtrl.addEventListener(
                 Autodesk.DataVisualization.UI.DATA_PANEL_CONTROL_TREE_NODE_CLICKED_EVENT,
-                (event) => {
-                    console.log(event, event.data?.isLeaf);
-                    this.settingsToolCtrl.currentTreeNodeId = event.data?.id;
-                });
+                this.onDataPanelTreeNodeClicked
+            );
 
             this.settingsToolCtrl.addEventListener(
                 Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_TREE_NODE_CLICKED_EVENT,
                 (event) => {
                     console.log(event, event.data?.isLeaf);
-                    this.dataPanelCtrl.currentTreeNodeId = event.data?.id;
-
                     if (!event.data?.isLeaf) {
+                        this.dataPanelCtrl.currentTreeNodeId = event.data?.id;
                         this.setLevelSectionsByName(event.data?.id);
                     }
                 });
@@ -578,12 +736,12 @@
 
             settingsToolCtrl.addEventListener(
                 Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_TREE_NODE_HOVERED_EVENT,
-                console.log
+                this.onDeviceTreeNodeHovered
             );
 
             settingsToolCtrl.addEventListener(
                 Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_TREE_NODE_BLURRED_EVENT,
-                console.log
+                this.onDeviceTreeNodeBlurred
             );
 
             settingsToolCtrl.initialize();
@@ -593,6 +751,7 @@
             //!-- Custom Tooltip
             let tooltipContainer = document.getElementById('tooltip');
             let tooltip = new Autodesk.DataVisualization.UI.CustomTooltipControl(tooltipContainer);
+            this.tooltip = tooltip;
             tooltip.initialize();
         }
 
@@ -624,11 +783,12 @@
 
             const level = this.findLevelByName(name);
             if (level) {
-                if (this.isCurrentLevel(name)) {
-                    this.levelSelector.selectFloor();
-                } else {
-                    this.levelSelector.selectFloor(level.index, true);
-                }
+                // if (this.isCurrentLevel(name)) {
+                //     this.levelSelector.selectFloor();
+                // } else {
+                //     this.levelSelector.selectFloor(level.index, true);
+                // }
+                this.levelSelector.selectFloor(level.index, true);
             } else {
                 this.levelSelector.selectFloor();
             }
@@ -640,6 +800,16 @@
             // Pre-load level extension 
             await this.viewer.loadExtension('Autodesk.AEC.LevelsExtension', { doNotCreateUI: true, });
             await this.viewer.loadExtension('Autodesk.DataVisualization');
+
+            this.viewer.addEventListener(
+                Autodesk.DataVisualization.Core.MOUSE_CLICK,
+                this.onSpriteClicked
+            );
+
+            this.viewer.addEventListener(
+                Autodesk.DataVisualization.Core.MOUSE_HOVERING,
+                this.onSpriteHovered
+            );
 
             if (!this.viewer.model?.isLoadDone()) {
                 this.viewer.addEventListener(
