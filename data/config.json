@@ -1,0 +1,38 @@
+{
+    "propertyGradientMap": {
+        "Temperature": [
+            "0x0000ff",
+            "0x00ff00",
+            "0xffff00",
+            "0xff0000"
+        ],
+        "Humidity": [
+            "0x00f260",
+            "0x0575e6"
+        ],
+        "CO₂": [
+            "0x1e9600",
+            "0xfff200",
+            "0xff0000"
+        ]
+    },
+    "renderSettings": {
+        "showViewables": true,
+        "occlusion": false,
+        "showTextures": true,
+        "heatmapType": "GeometryHeatmap"
+    },
+    "sensorStyleDefinitions": {
+        "default": {
+            "url": "assets/images/circle.svg",
+            "highlightedUrl": "assets/images/circle_highlighted.svg",
+            "color": "0xffffff",
+            "highlightedColor": "0xffffff"
+        }
+    },
+    "propertyIconMap": {
+        "Temperature": "assets/images/temperature_property.svg",
+        "Humidity": "assets/images/humidity_property.svg",
+        "CO₂": "assets/images/co2_property.svg"
+    }
+}
