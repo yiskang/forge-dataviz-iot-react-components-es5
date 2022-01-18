@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="../dist/heatmapoptions.css" />
   <link rel="stylesheet" href="../dist/settingstool.css" />
   <link rel="stylesheet" href="../dist/datapanel.css" />
+  <link rel="stylesheet" href="css/index.css" />
   
   <!-- <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script> -->
@@ -22,66 +23,13 @@
   <script src="../dist/timeslider.js"></script>
   <script src="../dist/datepicker.js"></script>
   <script src="../dist/customtooltip.js"></script>
-  <script src="./data.js"></script>
-
   <script src="../dist/heatmapoptions.js"></script>
   <script src="../dist/settingstool.js"></script>
   <script src="../dist/datapanel.js"></script>
 
-  <style>
-    html,
-    body {
-        width: 100%;
-        height: 100%;
-        margin: 0 0 0 0;
-        overflow: hidden;
-        font-family: "Roboto";
-        color: #ffffff;
-        /* background-color: #373737; */
-    }
-
-    /* #timeline_header {
-        width: 100%;
-    } */
-
-    #timeline {
-        width: 84.5% !important;
-    }
-
-    #hyperion_container {
-        height: 100%;
-    }
-
-    #hyperion_container .outer-container {
-        height: 100%;
-    }
-
-    #main_header{
-        display: flex;
-        background-color: #474747;
-    }
-
-    .date-picker-container {
-        width: 100%;
-    }
-
-    div.viewer-container {
-        position: absolute;
-        width: 75% !important;
-        height: calc(100% - 120px);
-        left: 0px;
-        top: 120px;
-    }
-
-    #ContactUsBar + div.viewer-container {
-        height: calc(100% - 200px);
-        top: 200px;
-    }
-
-    #dataPanel {
-        height: 100%;
-    }
-  </style>
+  <script src="js/data.js"></script>
+  <script src="js/IotConnectedExtension.js"></script>
+  <script src="js/index.js"></script>
   
 </head>
 
@@ -95,212 +43,13 @@
             </div>
             <div id="ContactUsBar"></div>
             <div id="tooltip" style="position: absolute; width: 10px; height: 10px; top:450px; left: 250px; border: 1px solid black; z-index: 1;"></div>
-            <div class="viewer-container"></div>
+            <div id="forgeViewer" class="viewer-container"></div>
             
             <div id="settingsTool"></div>
             <div id="heatmapOpts"></div>
             <div id="dataPanel"></div>
         </div>
     </div>
-    
-
-    <script>
-        //!-- ChronosTimeSlider
-        var currentTime = new Date();
-        currentTime.setUTCHours(0, 0, 0, 0);
-        var endTime = new Date(currentTime.getTime() + 1 * 24 * 60 * 60 * 1000);
-        endTime.setUTCHours(0, 0, 0, 0);
-        var startTime = new Date(currentTime.getTime() - 14 * 24 * 60 * 60 * 1000);
-        startTime.setUTCHours(0, 0, 0, 0);
-
-        var timeOptions = new Autodesk.DataVisualization.UI.TimeOptions(startTime, endTime, currentTime);
-        var timeSliderOptions = {
-            dataStart: startTime,
-            dataEnd: endTime,
-            timeOptions,
-            handleTimeRangeUpdated: (startTime, endTime, currentTime) => console.log(startTime, endTime, currentTime),
-            handleCurrentTimeUpdated: (currentTime) => console.log(currentTime)
-        };
-        var timeSliderCtrl = new Autodesk.DataVisualization.UI.ChronosTimeSliderControl(document.getElementById('timeline'), timeSliderOptions);
-
-        timeSliderCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.TIME_SLIDER_CONTROL_INITIALIZED_EVENT,
-            (event) => console.log(event)
-        );
-
-        timeSliderCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.TIME_SLIDER_CONTROL_CURRENT_TIME_UPDATED_EVENT,
-            (event) => console.log(event)
-        );
-
-        timeSliderCtrl.initialize();
-
-        //!-- BasicDatePicker
-        var datePickerCtrl = new Autodesk.DataVisualization.UI.BasicDatePickerControl(document.getElementById('datepicker'), { timeOptions });
-
-        datePickerCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.BASIC_DATE_PICKER_INITIALIZED_EVENT,
-            (event) => console.log(event)
-        );
-
-        datePickerCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.BASIC_DATE_PICKER_CONTROL_TIME_RANGE_UPDATED_EVENT,
-            (event) => {
-                console.log(event);
-                timeSliderCtrl.updateTimeRange(event.startTime, event.endTime);
-            });
-
-        timeSliderCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.TIME_SLIDER_CONTROL_TIME_RANGE_UPDATED_EVENT,
-            (event) => {
-                console.log(event);
-                datePickerCtrl.updateTimeRange(event.startTime, event.endTime);
-            });
-
-        datePickerCtrl.initialize();
-
-        //!-- HyperionToolContainer
-
-        var settingsToolContainer = document.getElementById('settingsTool');
-        var settingsToolOptions = {
-            devicePanelData
-        };
-        var settingsToolCtrl = new Autodesk.DataVisualization.UI.SettingsToolControl(settingsToolContainer, settingsToolOptions);
-
-        settingsToolCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_INITIALIZED_EVENT,
-            (event) => console.log(event)
-        );
-
-        settingsToolCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_RENDER_SETTINGS_CHANGED_EVENT,
-            (event) => console.log(event)
-        );
-
-        settingsToolCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_TREE_NODE_HOVERED_EVENT,
-            (event) => console.log(event)
-        );
-
-        settingsToolCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_TREE_NODE_BLURRED_EVENT,
-            (event) => console.log(event)
-        );
-
-        settingsToolCtrl.initialize();
-
-        //!-- HeatmapOptions
-        /**
-         * Gets the selected property's range min, max and dataUnit value.
-         *
-         * @param {string} propertyId String identifier of a device property.
-         * @returns {Object} The rangeMin, rangeMax and dataUnit for the selected propertyId
-         */
-        function getPropertyRanges(propertyId, propertyMap) {
-            if (propertyId !== "None") {
-                let dataUnit = "";
-                let rangeMin = Infinity;
-                let rangeMax = -Infinity;
-
-                //Get the property data from the device model
-                let deviceProperty = propertyMap.get(propertyId);
-
-                if (deviceProperty) {
-                    dataUnit = deviceProperty.dataUnit;
-                    dataUnit = dataUnit.toLowerCase() === "celsius" ? "°C" : dataUnit;
-                    dataUnit = dataUnit.toLowerCase() === "fahrenheit" ? "°F" : dataUnit;
-                    rangeMin = Math.min(rangeMin, deviceProperty.rangeMin); // will be NaN if deviceProperty.rangeMin == undefined or NaN
-                    rangeMax = Math.max(rangeMax, deviceProperty.rangeMax); // will be NaN if deviceProperty.rangeMax == undefined or NaN
-                }
-
-                // Check if the property min and max range is available in the device model, else notify user
-                if (isNaN(rangeMin) || isNaN(rangeMax)) {
-                    console.warn(
-                        `RangeMin and RangeMax for ${propertyId} not specified. Please update these values in the device model`
-                    );
-                    rangeMin = 0;
-                    rangeMax = 100;
-                    dataUnit = "%";
-                }
-                return { rangeMin, rangeMax, dataUnit };
-            }
-        }
-
-        var heatmapOptsContainer = document.getElementById('heatmapOpts');
-        var heatmapOptions = {
-            propIdGradientMap,
-            deviceModelProperties,
-            getPropertyRanges: (propertyId) => getPropertyRanges(propertyId, deviceModelProperties)
-        };
-        var heatmapOptsCtrl = new Autodesk.DataVisualization.UI.HeatmapOptionsControlControl(heatmapOptsContainer, heatmapOptions);
-
-        heatmapOptsCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.HEATMAP_OPTIONS_CONTROL_INITIALIZED_EVENT,
-            (event) => console.log(event)
-        );
-
-        heatmapOptsCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.HEATMAP_OPTIONS_CONTROL_STATE_CHANGED_EVENT,
-            (event) => console.log(event)
-        );
-
-        heatmapOptsCtrl.initialize();
-
-        //!-- Data Panel
-        var dataPanelContainer = document.getElementById('dataPanel');
-        var dataPanelOptions = {
-            ...dataPanelData,
-            dataVizExtn: {}
-        };
-        var dataPanelCtrl = new Autodesk.DataVisualization.UI.DataPanelControl(dataPanelContainer, dataPanelOptions);
-        dataPanelCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.DATA_PANEL_CONTROL_INITIALIZED_EVENT,
-            (event) => console.log(event)
-        );
-
-        dataPanelCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.DATA_PANEL_CONTROL_TREE_NODE_HOVERED_EVENT,
-            (event) => console.log(event, event.data)
-        );
-
-        dataPanelCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.DATA_PANEL_CONTROL_TREE_NODE_BLURRED_EVENT,
-            (event) => console.log(event, event.data)
-        );
-
-        dataPanelCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.DATA_PANEL_CONTROL_TREE_NODE_CLICKED_EVENT,
-            (event) => {
-                console.log(event, event.data);
-                settingsToolCtrl.currentTreeNodeId = event.data?.id;
-            });
-
-        settingsToolCtrl.addEventListener(
-            Autodesk.DataVisualization.UI.SETTINGS_TOOL_CONTROL_TREE_NODE_CLICKED_EVENT,
-            (event) => {
-                console.log(event);
-                dataPanelCtrl.currentTreeNodeId = event.data?.id;
-            });
-
-        dataPanelCtrl.initialize();
-
-        //!-- Custom Tooltip
-        var tooltipContainer = document.getElementById('tooltip');
-        var tooltip = new Autodesk.DataVisualization.UI.CustomTooltipControl(tooltipContainer);
-        tooltip.initialize();
-
-        tooltipContainer.addEventListener(
-            'mouseleave',
-            () => {
-                tooltip.hide();
-            });
-
-         tooltipContainer.addEventListener(
-            'mouseenter',
-            () => {
-                tooltip.show(tooltipData);
-            });
-    </script>
 </body>
 
 </html>
