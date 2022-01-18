@@ -256,16 +256,16 @@ class DataPanelControl extends THREE.EventDispatcher {
      * @private
      */
     onDashboardTreeNodeClicked(event) {
+        let id = event.data?.id;
         if (this.currentTreeNodeId == event.data?.id) {
-            this.currentTreeNodeId = null;
-            return;
+            id = null;
         }
 
-        this.currentTreeNodeId = event.data?.id;
+        this.currentTreeNodeId = id;
         this.dispatchEvent({
             type: DATA_PANEL_CONTROL_TREE_NODE_CLICKED_EVENT,
             data: {
-                id: event.data?.id,
+                id,
                 isLeaf: false
             }
         });
