@@ -70,19 +70,20 @@ class DataVizSettingsTool extends React.Component {
 
         this.state = {
             selectedGroupNode: props.selectedGroupNode,
-            renderSettings: props.renderSettings
+            renderSettings: props.renderSettings,
+            devicePanelData: props.devicePanelData
         };
     }
 
     render() {
         let {
             selectedGroupNode,
-            renderSettings
+            renderSettings,
+            devicePanelData
         } = this.state;
 
         let {
             eventBus,
-            devicePanelData,
             structureToolOnly
         } = this.props;
 
@@ -180,6 +181,31 @@ class SettingsToolControl extends THREE.EventDispatcher {
     }
 
     /**
+     * Represents array of device {@link TreeNode} in the scene.
+     * @type {TreeNode[]}
+     */
+    get devicePanelData() {
+        if (!this.instance) return;
+
+        return this.instance.state.devicePanelData;
+    }
+
+    /**
+     * Represents array of device {@link TreeNode} in the scene.
+     * @param {TreeNode[]} data
+     */
+    set devicePanelData(data) {
+        if (!this.instance) return;
+
+        delete this.options.devicePanelData;
+        this.options.devicePanelData = Object.assign({}, data);
+
+        this.instance.setState({
+            devicePanelData: data
+        });
+    }
+
+    /**
      * Current selected device node. Ex. Hyperion-1
      * @type {string}
      */
@@ -197,7 +223,7 @@ class SettingsToolControl extends THREE.EventDispatcher {
         if (!this.instance) return;
 
         let node = null;
-        let data = this.instance.props.devicePanelData;
+        let data = this.devicePanelData;
         for (let i = 0; i < data.length; i++) {
             node = findNode(value, data[i]);
             if (node != null) break;
@@ -211,7 +237,7 @@ class SettingsToolControl extends THREE.EventDispatcher {
         },
             () => {
                 let data = null;
-                if(node != null) {
+                if (node != null) {
                     let isLeaf = (node && (node.children.length <= 0));
                     data = {
                         ...node,

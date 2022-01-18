@@ -109,6 +109,7 @@ class DataVizDataPanel extends React.Component {
             selectedPropertyId: props.selectedPropertyId,
             selectedGroupNode: props.selectedGroupNode,
             currentDeviceData: props.currentDeviceData,
+            dbId2DeviceIdMap: props.dbId2DeviceIdMap,
             deviceId2DbIdMap: props.deviceId2DbIdMap,
             devices: props.devices,
             chartData: props.chartData
@@ -121,6 +122,7 @@ class DataVizDataPanel extends React.Component {
             selectedPropertyId,
             selectedGroupNode,
             currentDeviceData,
+            dbId2DeviceIdMap,
             deviceId2DbIdMap,
             devices,
             chartData
@@ -138,6 +140,7 @@ class DataVizDataPanel extends React.Component {
             <DataPanelContainer
                 selectedDevice={selectedDevice}
                 selectedPropertyId={selectedPropertyId}
+                dbId2DeviceIdMap={dbId2DeviceIdMap}
                 deviceId2DbIdMap={deviceId2DbIdMap}
                 devices={devices}
                 onNodeSelected={onNodeSelected}
@@ -323,6 +326,34 @@ class DataPanelControl extends THREE.EventDispatcher {
             selectedDevice,
             selectedGroupNode: node
         });
+    }
+
+    updateData(data) {
+        let newData = {};
+
+        if (data.hasOwnProperty('selectedPropertyId'))
+            newData.selectedPropertyId = data.selectedPropertyId;
+
+        if (data.hasOwnProperty('dbId2DeviceIdMap'))
+            newData.dbId2DeviceIdMap = data.dbId2DeviceIdMap;
+
+        if (data.hasOwnProperty('deviceId2DbIdMap'))
+            newData.deviceId2DbIdMap = data.deviceId2DbIdMap;
+
+        if (data.hasOwnProperty('devices'))
+            newData.devices = data.devices;
+
+        if (data.hasOwnProperty('currentDeviceData'))
+            newData.currentDeviceData = data.currentDeviceData;
+
+        if (data.hasOwnProperty('chartData'))
+            newData.chartData = data.chartData;
+
+        if (Object.keys(newData).length <= 0)
+            throw new Error(`Invalid input \`data\`. Only support updating these data: ['selectedPropertyId', 'dbId2DeviceIdMap', 'deviceId2DbIdMap', 'devices', 'currentDeviceData', 'chartData']`);
+
+        this.options = Object.assign({}, newData);
+        this.instance.setState(newData);
     }
 
     initialize() {
