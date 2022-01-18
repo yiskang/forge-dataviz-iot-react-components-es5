@@ -151,7 +151,7 @@ class SettingsToolControl extends THREE.EventDispatcher {
             () => {
                 this.dispatchEvent({
                     type: SETTINGS_TOOL_CONTROL_RENDER_SETTINGS_CHANGED_EVENT,
-                    ...event.data
+                    data: event.data
                 });
             });
     }
@@ -159,14 +159,14 @@ class SettingsToolControl extends THREE.EventDispatcher {
     onHoveringGroupSelection(event) {
         this.dispatchEvent({
             type: SETTINGS_TOOL_CONTROL_TREE_NODE_HOVERED_EVENT,
-            ...event.data
+            data: event.data
         });
     }
 
     onNotHoveringGroupSelection(event) {
         this.dispatchEvent({
             type: SETTINGS_TOOL_CONTROL_TREE_NODE_BLURRED_EVENT,
-            ...event.data
+            data: event.data
         });
     }
 

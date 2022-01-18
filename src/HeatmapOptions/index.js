@@ -132,10 +132,10 @@ class HeatmapOptionsControlControl extends THREE.EventDispatcher {
         this.onOptionsChanged = this.onOptionsChanged.bind(this);
     }
 
-    onOptionsChanged(event) {
+    onOptionsChanged(data) {
         this.dispatchEvent({
             type: HEATMAP_OPTIONS_CONTROL_STATE_CHANGED_EVENT,
-            ...event
+            data
         });
     }
 
