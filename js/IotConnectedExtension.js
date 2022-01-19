@@ -412,6 +412,8 @@
         onDataPanelTreeNodeBlurred(event) {
             console.log(event, event.data?.isLeaf);
 
+            this.settingsToolCtrl.currentTreeNodeId = this.dataPanelCtrl.currentTreeNodeId;
+
             this.dataVizTool.clearHighlightedViewables();
         }
 
@@ -423,7 +425,7 @@
             this.dataVizTool.clearHighlightedViewables();
 
             const deviceId = event.data.id;
-            this.settingsToolCtrl.currentTreeNodeId = deviceId;
+            //this.settingsToolCtrl.currentTreeNodeId = deviceId;
 
             // Only attempt select if device IDs have been established.
             if (this.deviceId2DbIdMap && this.deviceId2DbIdMap[deviceId]) {
@@ -752,6 +754,9 @@
                     console.log(event, event.data?.isLeaf);
                     if (!event.data?.isLeaf) {
                         const deviceId = event.data?.id;
+
+                        if (this.dataPanelCtrl.currentTreeNodeId == deviceId) return;
+
                         this.dataPanelCtrl.currentTreeNodeId = deviceId;
                         this.dataVizTool.renderSurfaceShading(
                             deviceId,
