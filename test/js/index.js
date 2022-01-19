@@ -55,7 +55,7 @@
             return;
         }
 
-        let documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6OWR5YXI1enNtZ2NsaWJiYWVuaHQ5YmFjaWYyMnpvN3ctc2FuZGJveC9yYWNfYWR2YW5jZWRfc2FtcGxlX3Byb2plY3QucnZ0';
+        let documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6OWR5YXI1enNtZ2NsaWJiYWVuaHQ5YmFjaWYyMnpvN3ctc2FuZGJveC9yYWNfYWR2YW5jZWRfc2FtcGxlX3Byb2plY3Rfbm9fbWFzcy5ydnQ';
         Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
 
         async function onDocumentLoadSuccess(viewerDocument) {

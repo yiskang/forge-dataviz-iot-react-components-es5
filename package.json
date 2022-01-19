@@ -4,7 +4,8 @@
   "description": "A React Component Library used by https://github.com/Autodesk-Forge/forge-dataviz-iot-reference-app with ES5 support",
   "main": "index.js",
   "scripts": {
-    "build": "npm run build:datapanel && npm run build:datepicker && npm run build:heatmap && npm run build:settings && npm run build:tooltip && npm run build:timeslider",
+    "build": "npm run build:data && npm run build:datapanel && npm run build:datepicker && npm run build:heatmap && npm run build:settings && npm run build:tooltip && npm run build:timeslider",
+    "build:data": "webpack --config data-webpack.config.js",
     "build:datapanel": "webpack --config datapanel-webpack.config.js",
     "build:datepicker": "webpack --config datepicker-webpack.config.js",
     "build:heatmap": "webpack --config heatmapoptions-webpack.config.js",
