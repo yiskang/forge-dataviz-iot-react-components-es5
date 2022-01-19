@@ -85,6 +85,16 @@ class CustomTooltipControl extends THREE.EventDispatcher {
     }
 
     /**
+     * True if the tooltip is visible.
+     * @returns {boolean}
+     */
+    get visible() {
+        if (!this.instance) return false;
+
+        return (this.instance.state.hoveredDeviceInfo?.id != null);
+    }
+
+    /**
      * Show tooltip with given sensor data
      * @param {Object} data
      * @param {HoveredDeviceInfo} data.hoveredDeviceInfo Object containing the id and (x,y) canvas coordinates of the
@@ -100,12 +110,13 @@ class CustomTooltipControl extends THREE.EventDispatcher {
             hoveredDeviceInfo: data.hoveredDeviceInfo,
             chartData: data.chartData,
             currentDeviceData: data.currentDeviceData
-        });
-
-        this.dispatchEvent({
-            type: TOOLTIP_CONTROL_VISIBILITY_CHANGED_EVENT,
-            visible: true
-        });
+        },
+            () => {
+                this.dispatchEvent({
+                    type: TOOLTIP_CONTROL_VISIBILITY_CHANGED_EVENT,
+                    visible: true
+                });
+            });
     }
 
     /**
@@ -118,12 +129,13 @@ class CustomTooltipControl extends THREE.EventDispatcher {
             hoveredDeviceInfo: {},
             chartData: {},
             currentDeviceData: {}
-        });
-
-        this.dispatchEvent({
-            type: TOOLTIP_CONTROL_VISIBILITY_CHANGED_EVENT,
-            visible: false
-        });
+        },
+            () => {
+                this.dispatchEvent({
+                    type: TOOLTIP_CONTROL_VISIBILITY_CHANGED_EVENT,
+                    visible: false
+                });
+            });
     }
 
     initialize() {

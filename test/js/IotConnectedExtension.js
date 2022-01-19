@@ -300,6 +300,7 @@
 
             //!--- DataViz UI
             this.onTimeRangeUpdated = this.onTimeRangeUpdated.bind(this);
+            this.onCurrentTimeUpdated = this.onCurrentTimeUpdated.bind(this);
             this.onRenderSettingsUpdated = this.onRenderSettingsUpdated.bind(this);
             this.onHeatmapOptionsChanged = this.onHeatmapOptionsChanged.bind(this);
             this.onDeviceTreeNodeHovered = this.onDeviceTreeNodeHovered.bind(this);
@@ -311,6 +312,7 @@
             //!-- DataViz ext
             this.onSpriteHovered = this.onSpriteHovered.bind(this);
             this.onSpriteClicked = this.onSpriteClicked.bind(this);
+            this.getSensorValue = this.getSensorValue.bind(this);
 
             //!-- Viewer
             this.createUI = this.createUI.bind(this);
@@ -341,6 +343,17 @@
             }
         }
 
+        onCurrentTimeUpdated(event) {
+            console.log(event);
+
+            const currentTime = new Date(event.currentTime.getTime());
+            console.log('Current time: ', currentTime);
+
+            this.dataVizTool.updateSurfaceShading(this.getSensorValue);
+
+            //!todo: Update dataPanelCtrl's currentDeviceData together.
+        }
+
         onRenderSettingsUpdated(event) {
             console.log(event);
 
@@ -358,12 +371,29 @@
             }
 
             //heatmapType
+            this.updateHeatmapType(heatmapType);
         }
 
         onHeatmapOptionsChanged(event) {
+            console.log(event);
+
+            const { selectedPropertyId, resolutionValue } = event.data;
+
+            this.timeSliderCtrl.resolution = resolutionValue;
+
             this.dataPanelCtrl.updateData({
-                selectedPropertyId: event.data.selectedPropertyId
+                selectedPropertyId: selectedPropertyId
             });
+
+            this.dataVizTool.removeSurfaceShading();
+
+            if (event.data?.showHeatMap) {
+                this.dataVizTool.renderSurfaceShading(
+                    this.dataPanelCtrl.currentTreeNodeId,
+                    selectedPropertyId,
+                    this.getSensorValue
+                );
+            }
         }
 
         onDeviceTreeNodeHovered(event) {
@@ -580,6 +610,21 @@
 
             this.dataPanelCtrl.updateData(newDataPanelData);
 
+            await this.dataVizTool.setupSurfaceShading(
+                this.viewer.model,
+                this.shadingData,
+                { type: renderSettings.heatmapType }
+            );
+
+            let gradientSettings = this.dataProvider.propertyGradientMap;
+            for (let deviceType in gradientSettings) {
+                this.dataVizTool.registerSurfaceShadingColors(
+                    deviceType,
+                    gradientSettings[deviceType],
+                    0.7
+                );
+            }
+
             return Promise.resolve();
         }
 
@@ -610,7 +655,7 @@
 
             timeSliderCtrl.addEventListener(
                 Autodesk.DataVisualization.UI.TIME_SLIDER_CONTROL_CURRENT_TIME_UPDATED_EVENT,
-                console.log
+                this.onCurrentTimeUpdated
             );
 
             timeSliderCtrl.addEventListener(
@@ -706,8 +751,15 @@
                 (event) => {
                     console.log(event, event.data?.isLeaf);
                     if (!event.data?.isLeaf) {
-                        this.dataPanelCtrl.currentTreeNodeId = event.data?.id;
-                        this.setLevelSectionsByName(event.data?.id);
+                        const deviceId = event.data?.id;
+                        this.dataPanelCtrl.currentTreeNodeId = deviceId;
+                        this.dataVizTool.renderSurfaceShading(
+                            deviceId,
+                            this.heatmapOptsCtrl.selectedPropertyTypeId,
+                            this.getSensorValue
+                        );
+
+                        this.setLevelSectionsByName(deviceId);
                     }
                 });
 
@@ -753,6 +805,64 @@
             let tooltip = new Autodesk.DataVisualization.UI.CustomTooltipControl(tooltipContainer);
             this.tooltip = tooltip;
             tooltip.initialize();
+        }
+
+        #clamp(value, lower, upper) {
+            if (value == undefined) {
+                return lower;
+            }
+
+            if (value > upper) {
+                return upper;
+            } else if (value < lower) {
+                return lower;
+            } else {
+                return value;
+            }
+        }
+
+        /**
+         * Gets the device property value given the current time marker.
+         *
+         * @param {SurfaceShadingPoint} surfaceShadingPoint A point that
+         * &nbsp;contributes to the heatmap generally generated from a {@link Device} object.
+         * &nbsp;This is generally created from a call to {@link ModelSurfaceInfo#generateSurfaceShadingData}
+         * @param {string} sensorType The device property for which normalized
+         * &nbsp;property value is to be retrieved.
+         * @returns {number} The property value of the device at the time given in
+         * &nbsp;timeOptions.currentTime field.
+         * @private
+         */
+        getSensorValue(surfaceShadingPoint, sensorType) {
+            const propertyMap = this.dataProvider.devicePropertyMap;
+            const property = propertyMap.get(sensorType);
+
+            if (!property) return 0;
+
+            const rangeMax = Number(property.rangeMax);
+            const rangeMin = Number(property.rangeMin);
+
+            const value = Math.random() * (rangeMax - rangeMin) + rangeMin;;
+            let normalized = (value - rangeMin) / (rangeMax - rangeMin);
+            normalized = this.#clamp(normalized, 0, 1);
+
+            return normalized;
+        }
+
+        async updateHeatmapType(heatmapType) {
+            if (!this.dataVizTool) return;
+
+            await this.dataVizTool.setupSurfaceShading(
+                this.viewer.model,
+                this.shadingData,
+                { type: heatmapType }
+            );
+
+            this.dataVizTool.renderSurfaceShading(
+                this.dataPanelCtrl.currentTreeNodeId,
+                this.heatmapOptsCtrl.selectedPropertyTypeId,
+                this.getSensorValue
+            );
         }
 
         async createUI() {

@@ -18,6 +18,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ChronosTimeSlider } from 'forge-dataviz-iot-react-components';
 import { TimeOptions } from '../TimeOptions';
+import {
+    isSupportedTimeResolution
+} from '../TimeResolutions';
 
 /**
  *  The time slider react wrapper based of https://github.com/Autodesk-Forge/forge-dataviz-iot-react-components/blob/main/client/components/ChronosTimeSlider.jsx.
@@ -152,6 +155,32 @@ class ChronosTimeSliderControl extends THREE.EventDispatcher {
             type: TIME_SLIDER_CONTROL_CURRENT_TIME_UPDATED_EVENT,
             currentTime
         });
+    }
+
+    /**
+     * Current resolution of data.
+     * @type {string}
+     */
+    get resolution() {
+        if (!this.instance) return;
+
+        return this.instance.state.resolution;
+    }
+
+    /**
+     * Current resolution of data. Ex. PT1H, PT15M etc.
+     * @param {string} value Time resolution value
+     */
+    set resolution(value) {
+        if (!this.instance) return;
+
+        if (!isSupportedTimeResolution(value))
+            throw new Error(`Unsupported time resolution \`${value}\`. Please get resolution value from \`Autodesk.DataVisualization.UI.getSupportedTimeResolutions()\`.`);
+
+        let newData = { resolution: value };
+        this.options.timeOptions = Object.assign({}, this.options.timeOptions, newData);
+
+        this.instance.setState(newData);
     }
 
     /**
