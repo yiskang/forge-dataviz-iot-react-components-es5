@@ -232,6 +232,9 @@ class SettingsToolControl extends THREE.EventDispatcher {
         // if (!node)
         //     throw new Error(`No device matching the given id \`${value}\` in the device tree found. Please check \`options.devicePanelData\`.`);
 
+        if (node && node.children.length <= 0)
+            return;
+
         this.instance.setState({
             selectedGroupNode: node
         },

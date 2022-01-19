@@ -205,10 +205,16 @@ class DataPanelControl extends THREE.EventDispatcher {
                 if (node != null) break;
             }
 
-            this.instance.setState({
+            return this.instance.setState({
                 selectedDevice: '',
                 selectedGroupNode: node
-            });
+            },
+                () => {
+                    this.dispatchEvent({
+                        type: DATA_PANEL_CONTROL_TREE_NODE_BLURRED_EVENT,
+                        data
+                    });
+                });
         }
 
         this.dispatchEvent({
