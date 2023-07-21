@@ -16,7 +16,7 @@
 
 (function () {
     function fetchForgeToken(callback) {
-        fetch('https://forge-token-srv2.herokuapp.com/api/forge/oauth/token', {
+        fetch('http://localhost:8091/api/oauth/token', {
             method: 'get',
             headers: new Headers({ 'Content-Type': 'application/json' })
         })

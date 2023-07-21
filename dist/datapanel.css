@@ -221,10 +221,12 @@
   height: calc(100% - 120px);
   max-height: calc(100% - 120px);
   overflow-y: auto;
-  position: relative !important; }
+  position: relative !important;
+}
 
 .react-draggable {
-  float: right !important; }
+  float: right !important;
+}
 
 .react-draggable #resizeHandle {
   width: 100%;
@@ -239,25 +241,30 @@
   left: 0;
   right: 0;
   height: 70%;
-  top: 25%; }
+  top: 25%;
+}
 
 .dashboard-view #resizeHandle {
-  top: 15%; }
+  top: 15%;
+}
 
 .dashboard {
-  padding-right: 2px; }
+  padding-right: 2px;
+}
 
 .dashboard-header {
   display: flex;
   align-items: center;
   font-weight: bold;
   background-color: #2a2a2a;
-  padding: 15px 5px 15px 5px; }
+  padding: 15px 5px 15px 5px;
+}
 
 #dashboard-back-arrow {
   color: #fff;
   position: absolute;
-  z-index: 2; }
+  z-index: 2;
+}
 
 /*//--------------------------Dashboard component styles-------------------------//*/
 .dashboard-device-name {
@@ -267,51 +274,62 @@
   flex-grow: 1;
   position: relative;
   line-height: 1.5;
-  letter-spacing: 0.00938em; }
+  letter-spacing: 0.00938em;
+}
 
 #dashboard-loading-icon {
   display: block;
   margin: auto;
-  margin-top: 30px; }
+  margin-top: 30px;
+}
 
 /*//--------------------------DataChart component styles-------------------------//*/
 .chart-container {
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+}
 
 /*//------------------------Data Chart component styles-----------------------//*/
 .tooltip-size {
   width: 170px;
-  height: 30px !important; }
+  height: 30px !important;
+}
 
 .dashboard-size {
   width: 100%;
   height: 220px !important;
-  padding: 15px 20px 15px 20px; }
+  padding: 15px 20px 15px 20px;
+}
 
 /*//-----------------------Device Panel component styles-----------------------//*/
 #title {
   text-align: center;
   font-size: 20px;
   font-weight: 900;
-  margin-top: 25px; }
+  margin-top: 25px;
+}
 
 /*//-----------------------Autocomplete component styles------------------------//*/
 #searchBarDiv {
   text-align: center;
-  overflow-y: auto; }
+  overflow-y: auto;
+}
 
 #searchBarDiv .MuiTextField-root .MuiOutlinedInput-root fieldset {
-  border-color: #999; }
+  border-color: #999;
+}
 
 #searchBarDiv .MuiTextField-root .MuiOutlinedInput-root fieldset:hover {
-  border-color: #999; }
+  border-color: #999;
+}
 
 #searchBarDiv .MuiTextField-root .Mui-focused > fieldset {
-  border-color: #6facfc; }
+  border-color: #6facfc;
+}
 
 #searchBarDiv .MuiTextField-root .MuiSvgIcon-root {
-  fill: #999; }
+  fill: #999;
+}
 
 .MuiAutocomplete-root {
   margin-bottom: 30px;
@@ -319,23 +337,28 @@
   width: 91%;
   margin-top: 16px;
   margin-left: 6px;
-  margin-right: 5px; }
+  margin-right: 5px;
+}
 
 div.MuiAutocomplete-inputRoot {
-  border-color: #999; }
+  border-color: #999;
+}
 
 input.MuiAutocomplete-input {
   color: #d0d0d0;
-  font-size: 13px; }
+  font-size: 13px;
+}
 
 /*//-------------------------DeviceTree component styles------------------------//*/
 .tree-device-row-heading {
   display: block;
-  align-items: center; }
+  align-items: center;
+}
 
 .tree-device-name {
   font-weight: 900;
-  padding-top: 5px; }
+  padding-top: 5px;
+}
 
 .badge {
   border-radius: 50%;
@@ -344,67 +367,80 @@ input.MuiAutocomplete-input {
   line-height: 24px;
   margin-left: 12px;
   font-size: 10px;
-  background-color: #5b5b5b; }
+  background-color: #5b5b5b;
+}
 
 #device-tree-view {
   width: 100%;
   overflow-y: auto;
-  overflow-x: hidden; }
+  overflow-x: hidden;
+}
 
-#device-tree-view [id^="tree-node-"] .MuiTreeItem-content {
+#device-tree-view [id^=tree-node-] .MuiTreeItem-content {
   background-color: #2a2a2a;
   max-width: 100%;
-  overflow-x: hidden; }
+  overflow-x: hidden;
+}
 
-#device-tree-view [id^="tree-node-"] .MuiTreeItem-label {
+#device-tree-view [id^=tree-node-] .MuiTreeItem-label {
   background-color: #2a2a2a;
   font-size: 16px;
   padding: 5px;
   vertical-align: bottom;
   align-items: center;
   display: inline-flex;
-  padding-top: 5px; }
+  padding-top: 5px;
+}
 
-#device-tree-view [id^="tree-node-"] .MuiTreeItem-group {
+#device-tree-view [id^=tree-node-] .MuiTreeItem-group {
   padding: 0;
-  margin: 0; }
+  margin: 0;
+}
 
-#device-tree-view [id^="tree-node-"] .MuiTreeItem-iconContainer {
+#device-tree-view [id^=tree-node-] .MuiTreeItem-iconContainer {
   margin-left: 10px;
-  margin-right: 0px; }
+  margin-right: 0px;
+}
 
-#device-tree-view [id^="leaf-node-"] .MuiTreeItem-content {
+#device-tree-view [id^=leaf-node-] .MuiTreeItem-content {
   background-color: #373737;
   display: contents;
-  border: 1px solid black; }
+  border: 1px solid black;
+}
 
-#device-tree-view [id^="leaf-node-"] .MuiTreeItem-label {
+#device-tree-view [id^=leaf-node-] .MuiTreeItem-label {
   background-color: #373737;
   padding: 10px;
   border-bottom: 1px solid #555;
   font-size: 16px;
   margin-left: 0px;
   margin-right: 0px;
-  display: block; }
+  display: block;
+}
 
-#device-tree-view [id^="leaf-node-"] div.MuiTreeItem-label:hover {
-  background-color: #2a2a2a; }
+#device-tree-view [id^=leaf-node-] div.MuiTreeItem-label:hover {
+  background-color: #2a2a2a;
+}
 
 /*//------------------------DeviceStats component styles------------------------//*/
 div.MuiChip-root.MuiChip-outlined {
   color: #d0d0d0;
   border-color: #d0d0d0;
   margin: 4px;
-  margin-top: 15px; }
+  margin-top: 15px;
+}
 
 .MuiChip-label {
-  padding-left: 10px; }
+  padding-left: 10px;
+}
 
 img.chip-icon.MuiChip-icon {
   margin-right: 1px;
-  margin-left: 8px; }
+  margin-left: 8px;
+}
 
 @media screen and (max-width: 1130px) and (min-width: 988px) {
   .logo {
-    display: none !important; } }
-
+    display: none !important;
+  }
+}
