@@ -216,38 +216,48 @@
   background-color: #373737;
   border-radius: 16px;
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+}
 
 #ContactUsBar + div.viewer-container + #hyperionToolContainer {
-  top: 230px; }
+  top: 230px;
+}
 
 #layers-icon {
-  fill: inherit; }
+  fill: inherit;
+}
 
 .container-button {
-  fill: #fff; }
+  fill: #fff;
+}
 
 .container-button:hover,
 .container-button:focus {
-  fill: #00bfff; }
+  fill: #00bfff;
+}
 
-#ssd-tree-view [id^="tree-node-"].Mui-selected .MuiTreeItem-content {
-  color: #00bfff; }
+#ssd-tree-view [id^=tree-node-].Mui-selected .MuiTreeItem-content {
+  color: #00bfff;
+}
 
 #ssd-tree-view div.MuiTreeItem-label:hover {
-  background-color: #808080; }
+  background-color: #808080;
+}
 
 #ssd-tree-view .MuiTreeItem-iconContainer {
   margin-left: 10px;
-  margin-right: 0px; }
+  margin-right: 0px;
+}
 
 .leafName {
   display: block;
   align-items: center;
-  color: #fff; }
+  color: #fff;
+}
 
 #divider {
-  background-color: #fff; }
+  background-color: #fff;
+}
 
 #ssd-typography,
 #settings-typography {
@@ -256,13 +266,15 @@
   color: #fff;
   font-size: 14px;
   border-radius: 7px;
-  margin-left: 7px; }
+  margin-left: 7px;
+}
 
 .arrow {
   position: absolute;
   font-size: 7px;
   width: 4em;
-  height: 4em; }
+  height: 4em;
+}
 
 .arrow::before {
   content: "";
@@ -270,51 +282,61 @@
   display: block;
   width: 0;
   height: 0;
-  border-style: solid; }
+  border-style: solid;
+}
 
 .popper {
   z-index: 2;
   max-height: calc(100% - 250px);
   overflow-y: auto;
-  border-radius: 7px; }
+  border-radius: 7px;
+}
 
-[x-placement*="right"] .arrow {
+[x-placement*=right] .arrow {
   left: 0;
   height: 3em;
-  width: 1em; }
+  width: 1em;
+}
 
-[x-placement*="right"] .arrow::before {
+[x-placement*=right] .arrow::before {
   border-width: 1em 1em 1em 0;
-  border-color: transparent #373737 transparent transparent; }
+  border-color: transparent #373737 transparent transparent;
+}
 
 #form-divider {
   background-color: #555;
-  margin: 6px; }
+  margin: 6px;
+}
 
 .hm-radio-group {
-  margin-top: 1px; }
+  margin-top: 1px;
+}
 
 .radio-selection-form {
   margin-left: 35px;
-  font-size: 10px; }
+  font-size: 10px;
+}
 
 #sensor-option-icon {
   fill: inherit;
   width: 30px;
-  height: 26px; }
+  height: 26px;
+}
 
 #form-label-hm {
   color: #fff;
   padding: 2px;
   margin-top: 8px;
   margin-bottom: 3px;
-  margin-left: -6px; }
+  margin-left: -6px;
+}
 
 .form-group {
-  margin-left: 20px; }
+  margin-left: 20px;
+}
 
 span.MuiRadio-root,
 span.MuiCheckbox-root {
   color: #fff;
-  padding: 6px; }
-
+  padding: 6px;
+}
